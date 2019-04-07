@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "297304800598",
+    "firebase_url": "https://app-clima-hoje.firebaseio.com",
+    "project_id": "app-clima-hoje",
+    "storage_bucket": "app-clima-hoje.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297304800598:android:768e41962915840f",
+        "android_client_info": {
+          "package_name": "com.phonegap.climahojemobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAWbDmFW0IKU5jF-BUsd03khGR4TZ-Thw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "297304800598-imbpfhdc2k6h4u8mn05pk9e4kdao81mc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

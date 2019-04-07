@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app" ng-csp>
+<head>
+    <meta charset="utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- CSS dependencies -->
+    <!-- <link rel="stylesheet" type="text/css" href="css/index.css" />-->
+    <link rel="stylesheet" href="lib/onsen/css/onsenui.css" />
+    <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css" />
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+
+    <title>Climahoje - Veja como está o clima hoje</title>
+</head>
+
+<body>
+    <div style="display: none;" title="Aguarde" id='aguarde' class="modal" tabindex="-1">
+      <div style="text-align: center;color: #666">
+      <ons-icon icon="circle-o-notch" spin size="26px"></ons-icon>
+      Por favor, aguarde um momento...
+      </div>
+    </div>
+
+
+    <ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
+      <ons-page>
+        <ons-splitter id="appSplitter">
+          <ons-splitter-side id="sidemenu" page="sidemenu.html" swipeable side="right" collapse="" width="260px"></ons-splitter-side>
+          <ons-splitter-content page="tabbar.html"></ons-splitter-content>
+        </ons-splitter>
+      </ons-page>
+    </ons-navigator>
+
+    <template id="tabbar.html">
+      <ons-page id="tabbar-page">
+        <ons-toolbar>
+          <div class="center">Home</div>
+          <div class="right">
+            <ons-toolbar-button onclick="fn.toggleMenu()">
+              <ons-icon icon="fa-info-circle"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+        </ons-toolbar>
+        <ons-tabbar swipeable id="appTabbar" position="auto">
+          <ons-tab label="Home" icon="fa-home" page="home.html" active></ons-tab>
+          <ons-tab label="Filtros" icon="fa-filter" page="forms.html"></ons-tab>
+          <ons-tab label="Ajustes" icon="fa-cogs" page="animations.html"></ons-tab>
+        </ons-tabbar>
+
+        <script>
+          ons.getScriptPage().addEventListener('prechange', function(event) {
+            if (event.target.matches('#appTabbar')) {
+              event.currentTarget.querySelector('ons-toolbar .center').innerHTML = event.tabItem.getAttribute('label');
+            }
+          });
+        </script>
+      </ons-page>
+    </template>
+
+    <template id="sidemenu.html">
+      <ons-page>
+        <div class="profile-pic">
+          <img src="img/icon.png">
+        </div>
+
+        <ons-list-title>Acesso rapído</ons-list-title>
+        <ons-list>
+          <ons-list-item onclick="fn.loadView(0)">
+            <div class="left">
+              <ons-icon fixed-width class="list-item__icon" icon="fa-home"></ons-icon>
+            </div>
+            <div class="center">
+              Home
+            </div>
+            <div class="right">
+              <ons-icon icon="fa-link"></ons-icon>
+            </div>
+          </ons-list-item>
+          <ons-list-item onclick="fn.loadView(1)">
+            <div class="left">
+              <ons-icon fixed-width class="list-item__icon " icon="fa-filter"></ons-icon>
+            </div>
+            <div class="center">
+              Filtros
+            </div>
+            <div class="right">
+              <ons-icon icon="fa-link"></ons-icon>
+            </div>
+          </ons-list-item>
+          <ons-list-item onclick="fn.loadView(2)">
+            <div class="left">
+              <ons-icon fixed-width class="list-item__icon" icon="fa-cogs"></ons-icon>
+            </div>
+            <div class="center">
+              Ajustes
+            </div>
+            <div class="right">
+              <ons-icon icon="fa-link"></ons-icon>
+            </div>
+          </ons-list-item>
+        </ons-list>
+
+        <ons-list-title style="margin-top: 10px">Links</ons-list-title>
+        <ons-list>
+          <ons-list-item onclick="fn.loadLink('https://miqueiasmcaetano.000webhostapp.com')">
+            <div class="left">
+              <ons-icon fixed-width class="list-item__icon" icon="fa-globe"></ons-icon>
+            </div>
+            <div class="center">
+              Site
+            </div>
+            <div class="right">
+              <ons-icon icon="fa-external-link"></ons-icon>
+            </div>
+          </ons-list-item>
+          <ons-list-item onclick="fn.loadLink('https://github.com/miqueias91')">
+            <div class="left">
+              <ons-icon fixed-width class="list-item__icon" icon="fa-github"></ons-icon>
+            </div>
+            <div class="center">
+              GitHub
+            </div>
+            <div class="right">
+              <ons-icon icon="fa-external-link"></ons-icon>
+            </div>
+          </ons-list-item>
+          <ons-list-item onclick="fn.loadLink('https://www.linkedin.com/in/miqueias-matias-caetano-21902068/')">
+            <div class="left">
+              <ons-icon fixed-width class="list-item__icon" icon="fa-linkedin-in"></ons-icon>
+            </div>
+            <div class="center">
+              LinkedIn
+            </div>
+            <div class="right">
+              <ons-icon icon="fa-external-link"></ons-icon>
+            </div>
+          </ons-list-item>
+          <ons-list-item onclick="fn.loadLink('https://www.facebook.com/miqueiasmatiascaetano')">
+            <div class="left">
+              <ons-icon fixed-width class="list-item__icon" icon="fa-facebook-f"></ons-icon>
+            </div>
+            <div class="center">
+              Facebook
+            </div>
+            <div class="right">
+              <ons-icon icon="fa-external-link"></ons-icon>
+            </div>
+          </ons-list-item>
+        </ons-list>
+
+        <script>
+          ons.getScriptPage().onInit = function() {
+            // Set ons-splitter-side animation
+            this.parentElement.setAttribute('animation', ons.platform.isAndroid() ? 'overlay' : 'reveal');
+          };
+        </script>
+
+        <style>
+          .profile-pic {
+            width: 200px;
+            background-color: #fff;
+            margin: 20px auto 10px;
+            border: 1px solid #999;
+            border-radius: 4px;
+          }
+
+          .profile-pic > img {
+            display: block;
+            max-width: 100%;
+          }
+
+          ons-list-item {
+            color: #444;
+          }
+        </style>
+      </ons-page>
+    </template>
+
+    <template class="homePage" id="home.html">
+
+      <ons-page>
+        <ons-pull-hook id="pull-hook" threshold-height="120px">
+          <ons-icon id="pull-hook-icon" size="22px" class="pull-hook-content" icon="fa-arrow-down"></ons-icon>
+        </ons-pull-hook>
+
+        <ons-list id="kitten-list">
+          <ons-list-header>Puxe para atualizar</ons-list-header>
+          <div id="vaziaPesquisa" class="container">
+            <p class="intro" >
+              Nenhuma pesquisa encontrada, utilize os filtros.<br><br>
+            </p>            
+          </div>
+
+          <div class="container">
+            <div id="resultadoTempo" class="main" style="display:none;">
+              <h2><i class="fas fa-location-arrow"></i>&nbsp;<span>XXXXXXX - XX, XX</span></h2> 
+              <br>
+              <div class="dadosTemperatura">
+                <h1>00ºC</h1>
+                <h2>XXXXXXXXX</h2>
+                <h4>Direção do vento:&nbsp;<span class="direcao">XXX</span></h4>
+                <h4>Vento:&nbsp;<span class="vento">00</span>km/h</h4>
+                <h4>Umidade:&nbsp;<span class="umidade">00</span>%</h4>
+                <h4>Pressão:&nbsp;<span class="pressao">00</span>&nbsp;hPa</h4>
+                <h4>Sensação:&nbsp;<span class="sensacao">00</span>&nbsp;ºC</h4>        
+              </div>
+              <br>
+              <h3>Verificado em: <span class="data">XX/XX/XXXX</span></h3>  
+              <h3>Fonte: Climatempo</h3>
+              <br>  
+            </div>      
+          </div>  
+        </ons-list>
+
+        <script>
+          var name = window.localStorage.getItem('name', name);
+
+          if (name && name !== 'undefined') {
+
+            var state = window.localStorage.getItem('state', state);
+            var country = window.localStorage.getItem('country', country);
+            var temperature = window.localStorage.getItem('temperature', temperature);
+            var condition = window.localStorage.getItem('condition', condition);
+            var wind_direction = window.localStorage.getItem('wind_direction', wind_direction);
+            var wind_velocity = window.localStorage.getItem('wind_velocity', wind_velocity);
+            var humidity = window.localStorage.getItem('humidity', humidity);
+            var pressure = window.localStorage.getItem('pressure', pressure);
+            var sensation = window.localStorage.getItem('sensation', sensation);
+            var date = window.localStorage.getItem('date', date);
+
+            $('#resultadoTempo h2 span').html(name+' - '+state+', '+country);
+            $('.dadosTemperatura h1').html(temperature+'ºC');
+            $('.dadosTemperatura h2').html(condition);
+            $('.dadosTemperatura h4 .direcao').html(wind_direction);
+            $('.dadosTemperatura h4 .vento').html(wind_velocity);
+            $('.dadosTemperatura h4 .umidade').html(humidity);
+            $('.dadosTemperatura h4 .pressao').html(pressure);
+            $('.dadosTemperatura h4 .sensacao').html(sensation);
+
+            var data = new Date(date);
+            $('#resultadoTempo h3 .data').html(data);
+
+            $("#resultadoTempo").css('display', '');
+            $("div#vaziaPesquisa.container").html('');
+          }
+          else{
+            $("#resultadoTempo").css('display', 'none');
+            $("#vaziaPesquisa").html('<p class="intro" >Nenhuma pesquisa encontrada, utilize os filtros.<br><br></p>');
+          }
+
+          ons.getScriptPage().onInit = function () {
+            var pullHook = document.getElementById('pull-hook');
+            var icon = document.getElementById('pull-hook-icon');
+
+            var estado = window.localStorage.getItem('estado');
+            var municipio = window.localStorage.getItem('municipio');
+
+            pullHook.addEventListener('changestate', function (event) {
+              switch (event.state) {
+                case 'initial':
+                  icon.setAttribute('icon', 'fa-arrow-down');
+                  icon.removeAttribute('rotate');
+                  icon.removeAttribute('spin');
+                  break;
+                case 'preaction':
+                  icon.setAttribute('icon', 'fa-arrow-down');
+                  icon.setAttribute('rotate', '180');
+                  icon.removeAttribute('spin');
+                  break;
+                case 'action':
+                  $('#aguarde').dialog('open');
+                  icon.setAttribute('icon', 'fa-spinner');
+                  icon.removeAttribute('rotate');
+                  icon.setAttribute('spin', true);
+                  break;
+              }
+            });           
+            var createKitten = function () {
+              buscaClimaMunicipio(municipio, estado);
+            };
+            pullHook.onAction = function (done) {
+              setTimeout(function() {
+                //$('#aguarde').dialog('open');
+                createKitten()
+                //document.getElementById('kitten-list').appendChild(createKitten());
+                done();
+              }, 400);
+            }
+          };
+        </script>
+        <style>
+          .pull-hook-content {
+            color: #666;
+            transition: transform .25s ease-in-out;
+          }
+        </style>
+      </ons-page>
+    </template>
+
+    <template id="forms.html">
+      <ons-page id="forms-page">
+
+        <ons-list>
+        <ons-list-header style='text-align: center;padding-top: 20px; padding-bottom: 20px;font-size: 17px;font-weight: 500;color: #1f1f21;'>Informe o estado e o município</ons-list-header>
+          <ons-list-header>Estado</ons-list-header>
+          <ons-list-item>
+            <div class="center">
+              <ons-input type="hidden" id="estado" name="estado" value=""></ons-input>
+              <ons-input type="hidden" id="municipio" name="municipio" value=""></ons-input> 
+
+              <ons-select id="select-estado" style="width: 100%">
+                <option value="">Estado</option>
+                <option sigla="AC" value="12">Acre - AC</option>
+                <option sigla="AL" value="27">Alagoas - AL</option>
+                <option sigla="AM" value="13">Amazonas - AM</option>
+                <option sigla="AP" value="16">Amapá - AP</option>
+                <option sigla="BA" value="29">Bahia - BA</option>
+                <option sigla="CE" value="23">Ceará - CE</option>
+                <option sigla="DF" value="53">Distrito Federal - DF</option>
+                <option sigla="ES" value="32">Espírito Santo - ES</option>
+                <option sigla="GO" value="52">Goiás - GO</option>
+                <option sigla="MA" value="21">Maranhão - MA</option>
+                <option sigla="MT" value="51">Mato Grosso - MT</option>
+                <option sigla="MS" value="50">Mato Grosso do Sul - MS</option>
+                <option sigla="MG" value="31">Minas Gerais - MG</option>
+                <option sigla="PA" value="15">Pará - PA</option>
+                <option sigla="PB" value="25">Paraíba - PB</option>
+                <option sigla="PR" value="41">Paraná - PR</option>
+                <option sigla="PI" value="22">Piauí - PI</option>
+                <option sigla="PE" value="26">Pernambuco - PE</option>
+                <option sigla="RJ" value="33">Rio de Janeiro - RJ</option>
+                <option sigla="RN" value="24">Rio Grande do Norte - RN</option>
+                <option sigla="RS" value="43">Rio Grande do Sul - RS</option>
+                <option sigla="RO" value="11">Rondônia - RO</option>
+                <option sigla="RR" value="14">Roraima - RR</option>
+                <option sigla="SP" value="35">São Paulo - SP</option>
+                <option sigla="SC" value="42">Santa Catarina - SC</option>
+                <option sigla="SE" value="28">Sergipe - SE</option>
+                <option sigla="TO" value="17">Tocantins - TO</option>
+              </ons-select>
+            </div>
+          </ons-list-item>
+
+          <ons-list-header>Município</ons-list-header>
+          <ons-list-item>
+            <div class="center">
+              <ons-select id="select-municipio" style="width: 100%">
+                <select id="localizaMunicipio">
+                  <option value="">Município</option>                  
+                </select>
+              </ons-select>
+            </div>
+          </ons-list-item>
+          
+          <ons-list-header style='text-align: center;padding-top: 20px; padding-bottom: 20px;font-size: 17px;font-weight: 500;color: #1f1f21;'>OU</ons-list-header>
+          <br>
+          <section>
+            <center><ons-button id="geolocation" class="button-margin">Utilizar minha localização</ons-button></center>
+          </section>      
+          <br>
+        </ons-list>
+
+        <script>
+          ons.getScriptPage().onInit = function () {
+            // onSuccess Callback
+            // This method accepts a Position object, which contains the
+            // current GPS coordinates
+            //
+            var onSuccess = function(position) {
+              $.ajax({
+                url: "https://nominatim.openstreetmap.org/reverse?format=json&lat="+ position.coords.latitude+"&lon="+position.coords.longitude,
+                dataType: 'JSON',
+                type: 'GET',
+                error: function() {
+                  alert("Erro na comunicação, tente novamente.");
+                  window.localStorage.removeItem('estado');
+                  window.localStorage.removeItem('municipio');
+                  window.location.reload();
+                },
+                success: function(valorRetornado) {
+                  var obj = valorRetornado;
+                  if (obj) {
+                    buscaClimaMunicipio(obj['address']['city_district'], obj['address']['state']);
+                  }
+                },
+              });
+            };
+            // onError Callback receives a PositionError object
+            //
+            function onError(error) {
+              $('#aguarde').dialog('close');
+                alert('code: '    + error.code    + '\n' +
+                      'message: ' + error.message + '\n');
+            }
+            //BUSCA LOCALIZACAO DO USUARIO
+            $('#geolocation').click(function(){
+              $('#aguarde').dialog('open');
+              navigator.geolocation.getCurrentPosition(onSuccess, onError);            
+            });
+
+            //BUSCA O OS MUNICIPIOS DO ESTADO SELECIONADO
+            $('#select-estado').change(function(){
+              if ($(this).val() !== '') {
+                  $('#aguarde').dialog('open');
+                  $.ajax({
+                      url: "https://climahoje.000webhostapp.com/buscaMunicipio.php",
+                      dataType: 'html',
+                      type: 'GET',
+                      data: {
+                        'uf': $('option:selected', this).attr('sigla'),
+                      },
+                      error: function() {
+                        $('#aguarde').dialog('close');
+                        ons.notification.alert("Erro na comunicação, tente novamente.");
+                        window.location.reload();
+                      },
+                      success: function(a) {
+                        if (a === 'ERROR') {
+                          $('#aguarde').dialog('close');
+                          ons.notification.alert('Atenção! Selecione um estado.');
+                        }else{
+                          $('#aguarde').dialog('close');
+                          $('#localizaMunicipio').html("<option value=''>Município</option>\n"+a);
+                        }
+                      },
+                  });
+              }
+              else{
+                $('#aguarde').dialog('close');
+                ons.notification.alert('Atenção! Selecione um estado.');
+                $('#localizaMunicipio').html("<option value=''>Município</option>");
+              }
+            });
+
+            //BUSCA O CLIMA DO MUNICIPIO SELECIONADO
+            $('#select-municipio').change(function(){
+              $('#aguarde').dialog('open');
+              if ($(this).val() !== '') {
+                var municipio = $('option:selected', this).attr('localidade');
+                var estado = $('option:selected', '#select-estado').attr('sigla');                
+                buscaClimaMunicipio(municipio, estado);                
+              }
+              else{
+                $('#aguarde').dialog('close');
+                ons.notification.alert('Atenção! Selecione um município.');
+              }
+            });
+
+           
+          }
+        </script>
+
+        <style>
+          .right-icon {
+            margin-left: 10px;
+          }
+
+          .right-label {
+            color: #666;
+          }
+        </style>
+      </ons-page>
+    </template>
+
+    <template id="animations.html">
+      <ons-page>
+        <ons-list>
+          <ons-list-header>Transitions</ons-list-header>
+          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'none'}, 'none')">
+            none
+          </ons-list-item>
+          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'default'}, 'default')">
+            default
+          </ons-list-item>
+          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'slide-ios'}, 'slide-ios')">
+            slide-ios
+          </ons-list-item>
+          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'slide-md'}, 'slide-md')">
+            slide-md
+          </ons-list-item>
+          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'lift-ios'}, 'lift-ios')">
+            lift-ios
+          </ons-list-item>
+          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'lift-md'}, 'lift-md')">
+            lift-md
+          </ons-list-item>
+          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'fade-ios'}, 'fade-ios')">
+            fade-ios
+          </ons-list-item>
+          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'fade-md'}, 'fade-md')">
+            fade-md
+          </ons-list-item>
+        </ons-list>
+      </ons-page>
+    </template>
+
+    <template id="transition.html">
+      <ons-page>
+        <ons-toolbar>
+          <div class="left">
+            <ons-back-button>Animations</ons-back-button>
+          </div>
+          <div class="center"></div>
+        </ons-toolbar>
+        <p style="text-align: center">
+          Use the VOnsBackButton
+        </p>
+        <script>
+          ons.getScriptPage().onInit = function () {
+            this.querySelector('ons-toolbar div.center').textContent = this.data.title;
+          }
+        </script>
+      </ons-page>
+    </template>
+
+    <style>
+      ons-splitter-side[animation=overlay] {
+        border-left: 1px solid #bbb;
+      }
+    </style>
+
+    <!-- JS dependencies (order matters!) -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="js/jquery.3.3.1.js"></script>
+    <script src="lib/onsen/js/onsenui.js"></script>
+    <script src="js/script_onsen.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/onesignal.js"></script>
+    <script src="js/script.js"></script>
+    <script type="text/javascript">
+        //app.initialize();
+    </script>
+</body>
+
+</html>
