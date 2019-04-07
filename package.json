@@ -8,6 +8,7 @@
     "dependencies": {
         "cordova-plugin-geolocation": "^4.0.1",
         "cordova.plugins.diagnostic": "^4.0.12",
-        "onesignal-cordova-plugin": "^2.4.6"
+        "onesignal-cordova-plugin": "^2.4.6",
+        "org.apache.cordova.geolocation": "^0.3.6"
     }
 }
