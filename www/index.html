@@ -45,8 +45,8 @@
         </ons-toolbar>
         <ons-tabbar swipeable id="appTabbar" position="auto">
           <ons-tab label="Home" icon="fa-home" page="home.html" active></ons-tab>
-          <ons-tab label="Filtros" icon="fa-filter" page="forms.html"></ons-tab>
-          <ons-tab label="Ajustes" icon="fa-cogs" page="animations.html"></ons-tab>
+          <ons-tab label="Filtro" icon="fa-filter" page="forms.html"></ons-tab>
+          <ons-tab label="Próximos 7 dias" icon="fa-calendar-alt" page="animations.html"></ons-tab>
         </ons-tabbar>
 
         <script>
@@ -83,7 +83,7 @@
               <ons-icon fixed-width class="list-item__icon " icon="fa-filter"></ons-icon>
             </div>
             <div class="center">
-              Filtros
+              Filtro
             </div>
             <div class="right">
               <ons-icon icon="fa-link"></ons-icon>
@@ -91,10 +91,10 @@
           </ons-list-item>
           <ons-list-item onclick="fn.loadView(2)">
             <div class="left">
-              <ons-icon fixed-width class="list-item__icon" icon="fa-cogs"></ons-icon>
+              <ons-icon fixed-width class="list-item__icon" icon="fa-calendar-alt"></ons-icon>
             </div>
             <div class="center">
-              Ajustes
+              Próximos 7 dias
             </div>
             <div class="right">
               <ons-icon icon="fa-link"></ons-icon>
@@ -189,7 +189,7 @@
           <ons-list-header>Puxe para atualizar</ons-list-header>
           <div id="vaziaPesquisa" class="container">
             <p class="intro" >
-              Nenhuma pesquisa encontrada, utilize os filtros.<br><br>
+              Nenhuma pesquisa encontrada, utilize o filtro.<br><br>
             </p>            
           </div>
 
@@ -200,54 +200,44 @@
               <div class="dadosTemperatura">
                 <h1>00ºC</h1>
                 <h2>XXXXXXXXX</h2>
-                <h4>Direção do vento:&nbsp;<span class="direcao">XXX</span></h4>
-                <h4>Vento:&nbsp;<span class="vento">00</span>km/h</h4>
-                <h4>Umidade:&nbsp;<span class="umidade">00</span>%</h4>
-                <h4>Pressão:&nbsp;<span class="pressao">00</span>&nbsp;hPa</h4>
-                <h4>Sensação:&nbsp;<span class="sensacao">00</span>&nbsp;ºC</h4>        
+                <h4>Máxima:&nbsp;<span class="maxima">00</span>ºC</h4>
+                <h4>Mínima:&nbsp;<span class="minima">00</span>ºC</h4>
               </div>
               <br>
               <h3>Verificado em: <span class="data">XX/XX/XXXX</span></h3>  
-              <h3>Fonte: Climatempo</h3>
+              <h3>Fonte: CPTEC/INPE</h3>
               <br>  
             </div>      
           </div>  
         </ons-list>
 
         <script>
-          var name = window.localStorage.getItem('name', name);
+          var nome = window.localStorage.getItem('nome');
+          if (nome !== null) {
+            var estado = window.localStorage.getItem('estado');
+            var municipio = window.localStorage.getItem('municipio');
+            var uf = window.localStorage.getItem('uf');
+            var temp_media0 = window.localStorage.getItem('temp_media');
+            var maxima0 = window.localStorage.getItem('maxima0');
+            var minima0 = window.localStorage.getItem('minima0');
+            var tempo0 = window.localStorage.getItem('tempo0');
+            var dia0 = window.localStorage.getItem('dia0');
+            console.log(temp_media0)
 
-          if (name && name !== 'undefined') {
+            $('#resultadoTempo h2 span').html(nome+' - '+uf+', BR');
+            $('.dadosTemperatura h1').html(temp_media0+'ºC');
+            $('.dadosTemperatura h2').html(clima[tempo0]);
+            $('.dadosTemperatura h4 .direcao').html(maxima0);
+            $('.dadosTemperatura h4 .vento').html(minima0);
 
-            var state = window.localStorage.getItem('state', state);
-            var country = window.localStorage.getItem('country', country);
-            var temperature = window.localStorage.getItem('temperature', temperature);
-            var condition = window.localStorage.getItem('condition', condition);
-            var wind_direction = window.localStorage.getItem('wind_direction', wind_direction);
-            var wind_velocity = window.localStorage.getItem('wind_velocity', wind_velocity);
-            var humidity = window.localStorage.getItem('humidity', humidity);
-            var pressure = window.localStorage.getItem('pressure', pressure);
-            var sensation = window.localStorage.getItem('sensation', sensation);
-            var date = window.localStorage.getItem('date', date);
-
-            $('#resultadoTempo h2 span').html(name+' - '+state+', '+country);
-            $('.dadosTemperatura h1').html(temperature+'ºC');
-            $('.dadosTemperatura h2').html(condition);
-            $('.dadosTemperatura h4 .direcao').html(wind_direction);
-            $('.dadosTemperatura h4 .vento').html(wind_velocity);
-            $('.dadosTemperatura h4 .umidade').html(humidity);
-            $('.dadosTemperatura h4 .pressao').html(pressure);
-            $('.dadosTemperatura h4 .sensacao').html(sensation);
-
-            var data = new Date(date);
-            $('#resultadoTempo h3 .data').html(data);
+            $('#resultadoTempo h3 .data').html(dia0);
 
             $("#resultadoTempo").css('display', '');
             $("div#vaziaPesquisa.container").html('');
           }
           else{
             $("#resultadoTempo").css('display', 'none');
-            $("#vaziaPesquisa").html('<p class="intro" >Nenhuma pesquisa encontrada, utilize os filtros.<br><br></p>');
+            $("#vaziaPesquisa").html('<p class="intro" >Nenhuma pesquisa encontrada, utilize o filtro.<br><br></p>');
           }
 
           ons.getScriptPage().onInit = function () {
@@ -284,7 +274,6 @@
               setTimeout(function() {
                 //$('#aguarde').dialog('open');
                 createKitten()
-                //document.getElementById('kitten-list').appendChild(createKitten());
                 done();
               }, 400);
             }
@@ -352,60 +341,19 @@
                 </select>
               </ons-select>
             </div>
-          </ons-list-item>
-          
-          <ons-list-header style='text-align: center;padding-top: 20px; padding-bottom: 20px;font-size: 17px;font-weight: 500;color: #1f1f21;'>OU</ons-list-header>
-          <br>
-          <section>
-            <center><ons-button id="geolocation" class="button-margin">Utilizar minha localização</ons-button></center>
-          </section>      
+          </ons-list-item>     
           <br>
         </ons-list>
 
         <script>
           ons.getScriptPage().onInit = function () {
-            // onSuccess Callback
-            // This method accepts a Position object, which contains the
-            // current GPS coordinates
-            //
-            var onSuccess = function(position) {
-              $.ajax({
-                url: "https://nominatim.openstreetmap.org/reverse?format=json&lat="+ position.coords.latitude+"&lon="+position.coords.longitude,
-                dataType: 'JSON',
-                type: 'GET',
-                error: function() {
-                  alert("Erro na comunicação, tente novamente.");
-                  window.localStorage.removeItem('estado');
-                  window.localStorage.removeItem('municipio');
-                  window.location.reload();
-                },
-                success: function(valorRetornado) {
-                  var obj = valorRetornado;
-                  if (obj) {
-                    buscaClimaMunicipio(obj['address']['city_district'], obj['address']['state']);
-                  }
-                },
-              });
-            };
-            // onError Callback receives a PositionError object
-            //
-            function onError(error) {
-              $('#aguarde').dialog('close');
-                alert('code: '    + error.code    + '\n' +
-                      'message: ' + error.message + '\n');
-            }
-            //BUSCA LOCALIZACAO DO USUARIO
-            $('#geolocation').click(function(){
-              $('#aguarde').dialog('open');
-              navigator.geolocation.getCurrentPosition(onSuccess, onError);            
-            });
-
             //BUSCA O OS MUNICIPIOS DO ESTADO SELECIONADO
             $('#select-estado').change(function(){
+              $('#aguarde').dialog('open');
               if ($(this).val() !== '') {
-                  $('#aguarde').dialog('open');
                   $.ajax({
-                      url: "https://climahoje.000webhostapp.com/buscaMunicipio.php",
+                      //url: "https://climahoje.000webhostapp.com/buscaMunicipio.php",
+                      url: "https://climahoje.000webhostapp.com/webservice/climahojemobile/buscaMunicipio.php",
                       dataType: 'html',
                       type: 'GET',
                       data: {
@@ -414,7 +362,7 @@
                       error: function() {
                         $('#aguarde').dialog('close');
                         ons.notification.alert("Erro na comunicação, tente novamente.");
-                        window.location.reload();
+                        //window.location.reload();
                       },
                       success: function(a) {
                         if (a === 'ERROR') {

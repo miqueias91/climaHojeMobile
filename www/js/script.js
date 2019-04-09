@@ -21,7 +21,7 @@ window.plugins.OneSignal.promptForPushNotificationsWithUserResponse(function(acc
 });
 }, false);*/
 
-
+clima = {ec:'Encoberto com Chuvas Isoladas',ci:'Chuvas Isoladas',c:'Chuva',in:'Instável',pp:'Poss. de Pancadas de Chuva',cm:'Chuva pela Manhã',cn:'Chuva a Noite',pt:'Pancadas de Chuva a Tarde',pm:'Pancadas de Chuva pela Manhã',np:'Nublado e Pancadas de Chuva',pc:'Pancadas de Chuva',pn:'Parcialmente Nublado',cv:'Chuvisco',ch:'Chuvoso',t:'Tempestade',ps:'Predomínio de Sol',e:'Encoberto',n:'Nublado',cl:'Céu Claro',nv:'Nevoeiro',g:'Geada',ne:'Neve',nd:'Não Definido',pnt:'Pancadas de Chuva a Noite',psc:'Possibilidade de Chuva',pcm:'Possibilidade de Chuva pela Manhã',pct:'Possibilidade de Chuva a Tarde',pcn:'Possibilidade de Chuva a Noite',npt:'Nublado com Pancadas a Tarde',npn:'Nublado com Pancadas a Noite',ncn:'Nublado com Poss. de Chuva a Noite',nct:'Nublado com Poss. de Chuva a Tarde',ncm:'Nubl. c/ Poss. de Chuva pela Manhã',npm:'Nublado com Pancadas pela Manhã',npp:'Nublado com Possibilidade de Chuva',vn:'Variação de Nebulosidade',ct:'Chuva a Tarde',ppn:'Poss. de Panc. de Chuva a Noite',ppt:'Poss. de Panc. de Chuva a Tarde',ppm:'Poss. de Panc. de Chuva pela Manhã'};
 
 $('#aguarde').dialog({
     modal: true,
@@ -32,57 +32,60 @@ $('#aguarde').dialog({
 });
 
 function buscaClimaMunicipio(municipio, estado) {
-	$.ajax({
-	    url: "https://climahoje.000webhostapp.com/buscaClimaMunicipio.php",
-	    dataType: 'JSON',
-	    type: 'GET',
-	    data: {
-	      'estado': estado,
-	      'municipio': municipio,
-	    },
-	    error: function() {
-	      $('#aguarde').dialog('close');
-	      ons.notification.alert("Erro na comunicação, tente novamente.");
-	      //window.location.reload();
-	    },
-	    success: function(valorRetornado) {
-	      if (valorRetornado == "ERROR") {
-	        ons.notification.alert("Atenção! Não foi possível buscar o clima na localidade.");
-	        $('#aguarde').dialog('close');
-	      }
-	      else{  
-	        var obj = valorRetornado;         
-	        if (obj) {
-	          //RETORNA O RESULTADO E EXIBE NA TELA
-	          $('#resultadoTempo h2 span').html(obj['name']+' - '+obj['state']+', '+obj['country']);
-	          $('.dadosTemperatura h1').html(obj['data']['temperature']+'ºC');
-	          $('.dadosTemperatura h2').html(obj['data']['condition']);
-	          $('.dadosTemperatura h4 .direcao').html(obj['data']['wind_direction']);
-	          $('.dadosTemperatura h4 .vento').html(obj['data']['wind_velocity']);
-	          $('.dadosTemperatura h4 .umidade').html(obj['data']['humidity']);
-	          $('.dadosTemperatura h4 .pressao').html(obj['data']['pressure']);
-	          $('.dadosTemperatura h4 .sensacao').html(obj['data']['sensation']);
-	          var date = new Date(obj['data']['date']);
-	          $('#resultadoTempo h3 .data').html(date);
-	          window.localStorage.setItem('estado', estado);
-	          window.localStorage.setItem('municipio', municipio);
-	          window.localStorage.setItem('name', obj['name']);
-	          window.localStorage.setItem('state', obj['state']);
-	          window.localStorage.setItem('country', obj['country']);
-	          window.localStorage.setItem('temperature', obj['data']['temperature']);
-	          window.localStorage.setItem('condition', obj['data']['condition']);
-	          window.localStorage.setItem('wind_direction', obj['data']['wind_direction']);
-	          window.localStorage.setItem('wind_velocity', obj['data']['wind_velocity']);
-	          window.localStorage.setItem('humidity', obj['data']['humidity']);
-	          window.localStorage.setItem('pressure', obj['data']['pressure']);
-	          window.localStorage.setItem('sensation', obj['data']['sensation']);
-	          window.localStorage.setItem('date', obj['data']['date']);
-	          $("div#vaziaPesquisa.container").html('');
-	          window.fn.loadView(0);
-	          $('#resultadoTempo').css('display', '');                           
-	          $('#aguarde').dialog('close');
-	        }
-	      }
-	    },
-	});
+	if (municipio !== null && estado !== null) {
+		$.ajax({
+		    url: "https://climahoje.000webhostapp.com/webservice/climahojemobile/buscaClimaMunicipio.php",
+		    dataType: 'json',
+		    type: 'GET',
+		    data: {
+		      'estado': estado,
+		      'municipio': municipio
+		    },
+		    error: function(a) {
+		    	console.log(a)
+		      $('#aguarde').dialog('close');
+		      ons.notification.alert("Erro na comunicação, tente novamente.");
+		      //window.location.reload();
+		    },
+		    success: function(valorRetornado) {
+	    		console.log(valorRetornado)
+		      if (valorRetornado == "ERROR") {
+		        ons.notification.alert("Atenção! Não foi possível buscar o clima na localidade.");
+		        $('#aguarde').dialog('close');
+		      }
+		      else{  
+		        var obj = valorRetornado;         
+		        if (obj) {
+		        	var temp_media0 = parseFloat(obj['previsao'][0]['maxima'])-parseFloat(obj['previsao'][0]['minima']) / 2;
+
+		          //RETORNA O RESULTADO E EXIBE NA TELA
+		          $('#resultadoTempo h2 span').html(obj['nome']+' - '+obj['uf']+', '+'BR');
+		          $('.dadosTemperatura h1').html(temp_media0+'ºC');
+		          $('.dadosTemperatura h2').html(clima[obj['previsao'][0]['tempo']]);
+		          $('.dadosTemperatura h4 .maxima').html(obj['previsao'][0]['maxima']);
+		          $('.dadosTemperatura h4 .minima').html(obj['previsao'][0]['minima']);
+		          $('#resultadoTempo h3 .data').html(obj['previsao'][0]['dia']);
+
+		          window.localStorage.setItem('estado', estado);
+		          window.localStorage.setItem('municipio', municipio);
+		          window.localStorage.setItem('nome', obj['nome']);
+		          window.localStorage.setItem('uf', obj['uf']);
+		          window.localStorage.setItem('temp_media0', temp_media0);
+		          window.localStorage.setItem('maxima0', obj['previsao'][0]['maxima']);
+		          window.localStorage.setItem('minima0', obj['previsao'][0]['minima']);
+		          window.localStorage.setItem('tempo0', obj['previsao'][0]['tempo']);
+		          window.localStorage.setItem('dia0', obj['previsao'][0]['dia']);
+		          
+		          $("div#vaziaPesquisa.container").html('');
+		          window.fn.loadView(0);
+		          $('#resultadoTempo').css('display', '');                           
+		          $('#aguarde').dialog('close');
+		        }
+		      }
+		    },
+		});
+	}else {		
+		$('#aguarde').dialog('close');
+		ons.notification.alert("Erro na comunicação, utilize o filtro.");
+	}
 }

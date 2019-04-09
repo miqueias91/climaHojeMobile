@@ -17,20 +17,6 @@ module.exports = [
     ]
   },
   {
-    "id": "cordova-plugin-geolocation.geolocation",
-    "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-    "pluginId": "cordova-plugin-geolocation",
-    "clobbers": [
-      "navigator.geolocation"
-    ]
-  },
-  {
-    "id": "cordova-plugin-geolocation.PositionError",
-    "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-    "pluginId": "cordova-plugin-geolocation",
-    "runs": true
-  },
-  {
     "id": "cordova-plugin-statusbar.statusbar",
     "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
     "pluginId": "cordova-plugin-statusbar",
@@ -148,7 +134,6 @@ module.exports.metadata =
 {
   "cordova-plugin-console": "1.0.7",
   "cordova-plugin-dialogs": "1.2.1",
-  "cordova-plugin-geolocation": "4.0.1",
   "cordova-plugin-statusbar": "2.1.3",
   "cordova-plugin-whitelist": "1.2.2",
   "cordova.plugins.diagnostic": "4.0.12",
