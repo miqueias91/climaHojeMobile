@@ -217,7 +217,7 @@
             var estado = window.localStorage.getItem('estado');
             var municipio = window.localStorage.getItem('municipio');
             var uf = window.localStorage.getItem('uf');
-            var temp_media0 = window.localStorage.getItem('temp_media');
+            var temp_media0 = window.localStorage.getItem('temp_media0');
             var maxima0 = window.localStorage.getItem('maxima0');
             var minima0 = window.localStorage.getItem('minima0');
             var tempo0 = window.localStorage.getItem('tempo0');
@@ -227,8 +227,8 @@
             $('#resultadoTempo h2 span').html(nome+' - '+uf+', BR');
             $('.dadosTemperatura h1').html(temp_media0+'ºC');
             $('.dadosTemperatura h2').html(clima[tempo0]);
-            $('.dadosTemperatura h4 .direcao').html(maxima0);
-            $('.dadosTemperatura h4 .vento').html(minima0);
+            $('.dadosTemperatura h4 .maxima').html(maxima0);
+            $('.dadosTemperatura h4 .minima').html(minima0);
 
             $('#resultadoTempo h3 .data').html(dia0);
 
@@ -359,9 +359,9 @@
                       data: {
                         'uf': $('option:selected', this).attr('sigla'),
                       },
-                      error: function() {
+                      error: function(a) {
                         $('#aguarde').dialog('close');
-                        ons.notification.alert("Erro na comunicação, tente novamente.");
+                        ons.notification.alert("Erro na comunicação, tente novamente: "+a);
                         //window.location.reload();
                       },
                       success: function(a) {

@@ -42,9 +42,8 @@ function buscaClimaMunicipio(municipio, estado) {
 		      'municipio': municipio
 		    },
 		    error: function(a) {
-		    	console.log(a)
 		      $('#aguarde').dialog('close');
-		      ons.notification.alert("Erro na comunicação, tente novamente.");
+		      ons.notification.alert("Erro na comunicação, tente novamente: "+a);
 		      //window.location.reload();
 		    },
 		    success: function(valorRetornado) {
