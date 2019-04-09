@@ -186,7 +186,7 @@
         </ons-pull-hook>
 
         <ons-list id="kitten-list">
-          <ons-list-header>Puxe para atualizar</ons-list-header>
+          <ons-list-header>Puxe para atualizar a previsão</ons-list-header>
           <div id="vaziaPesquisa" class="container">
             <p class="intro" >
               Nenhuma pesquisa encontrada, utilize o filtro.<br><br>
@@ -200,11 +200,12 @@
               <div class="dadosTemperatura">
                 <h1>00ºC</h1>
                 <h2>XXXXXXXXX</h2>
+                <h3>Previsão de: Quarta-feira, 10,2019</h3>
                 <h4>Máxima:&nbsp;<span class="maxima">00</span>ºC</h4>
                 <h4>Mínima:&nbsp;<span class="minima">00</span>ºC</h4>
               </div>
               <br>
-              <h3>Verificado em: <span class="data">XX/XX/XXXX</span></h3>  
+              <h3>Atualizado em: <span class="data">XX/XX/XXXX</span></h3>  
               <h3>Fonte: CPTEC/INPE</h3>
               <br>  
             </div>      
@@ -222,7 +223,6 @@
             var minima0 = window.localStorage.getItem('minima0');
             var tempo0 = window.localStorage.getItem('tempo0');
             var dia0 = window.localStorage.getItem('dia0');
-            console.log(temp_media0)
 
             $('#resultadoTempo h2 span').html(nome+' - '+uf+', BR');
             $('.dadosTemperatura h1').html(temp_media0+'ºC');

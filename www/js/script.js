@@ -55,15 +55,27 @@ function buscaClimaMunicipio(municipio, estado) {
 		      else{  
 		        var obj = valorRetornado;         
 		        if (obj) {
-		        	var temp_media0 = parseFloat(obj['previsao'][0]['maxima'])-parseFloat(obj['previsao'][0]['minima']) / 2;
-
+		        	var temp_media0 = (parseFloat(obj['previsao'][0]['maxima']) + parseFloat(obj['previsao'][0]['minima'])) / 2;
+		        
 		          //RETORNA O RESULTADO E EXIBE NA TELA
 		          $('#resultadoTempo h2 span').html(obj['nome']+' - '+obj['uf']+', '+'BR');
 		          $('.dadosTemperatura h1').html(temp_media0+'ºC');
 		          $('.dadosTemperatura h2').html(clima[obj['previsao'][0]['tempo']]);
 		          $('.dadosTemperatura h4 .maxima').html(obj['previsao'][0]['maxima']);
 		          $('.dadosTemperatura h4 .minima').html(obj['previsao'][0]['minima']);
-		          $('#resultadoTempo h3 .data').html(obj['previsao'][0]['dia']);
+
+		          var aux_data = obj['atualizacao'].split("-");
+		          var data_atualizacao = aux_data[2]+"/"+aux_data[1]+"/"+aux_data[0];
+
+					var data = new Date();
+
+					// Guarda cada pedaço em uma variável
+					var hora    = data.getHours();          // 0-23
+					var min     = data.getMinutes();        // 0-59
+					var seg     = data.getSeconds();        // 0-59
+					var str_hora = hora + ':' + min + ':' + seg;
+
+		          $('#resultadoTempo h3 .data').html(data_atualizacao+" "+str_hora);
 
 		          window.localStorage.setItem('estado', estado);
 		          window.localStorage.setItem('municipio', municipio);
@@ -73,7 +85,7 @@ function buscaClimaMunicipio(municipio, estado) {
 		          window.localStorage.setItem('maxima0', obj['previsao'][0]['maxima']);
 		          window.localStorage.setItem('minima0', obj['previsao'][0]['minima']);
 		          window.localStorage.setItem('tempo0', obj['previsao'][0]['tempo']);
-		          window.localStorage.setItem('dia0', obj['previsao'][0]['dia']);
+		          window.localStorage.setItem('dia0', data_atualizacao+" "+str_hora);
 		          
 		          $("div#vaziaPesquisa.container").html('');
 		          window.fn.loadView(0);
