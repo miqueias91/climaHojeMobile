@@ -60,7 +60,7 @@ function buscaClimaMunicipio(municipio, estado) {
 		          //RETORNA O RESULTADO E EXIBE NA TELA
 		          $('#resultadoTempo h2 span').html(obj['nome']+' - '+obj['uf']+', '+'BR');
 		          $('.dadosTemperatura h1').html(temp_media0+'ºC');
-		          $('.dadosTemperatura h2').html(clima[obj['previsao'][0]['tempo']]);
+		          $('.dadosTemperatura h2 .situacao').html(clima[obj['previsao'][0]['tempo']]);
 		          $('.dadosTemperatura h4 .maxima').html(obj['previsao'][0]['maxima']);
 		          $('.dadosTemperatura h4 .minima').html(obj['previsao'][0]['minima']);
 
@@ -73,6 +73,15 @@ function buscaClimaMunicipio(municipio, estado) {
 					var hora    = data.getHours();          // 0-23
 					var min     = data.getMinutes();        // 0-59
 					var seg     = data.getSeconds();        // 0-59
+					if (parseInt(hora) < 10) {
+						hora = "0"+hora;
+					}
+					if (parseInt(min) < 10) {
+						min = "0"+min;
+					}
+					if (parseInt(seg) < 10) {
+						seg = "0"+seg;
+					}
 					var str_hora = hora + ':' + min + ':' + seg;
 
 		          $('#resultadoTempo h3 .data').html(data_atualizacao+" "+str_hora);

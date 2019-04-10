@@ -199,8 +199,8 @@
               <br>
               <div class="dadosTemperatura">
                 <h1>00ºC</h1>
-                <h2>XXXXXXXXX</h2>
-                <h3>Previsão de: Quarta-feira, 10,2019</h3>
+                <h2>Amanhã</h2>
+                <h2><span class="situacao">XXXXXXXXX</span></h2>
                 <h4>Máxima:&nbsp;<span class="maxima">00</span>ºC</h4>
                 <h4>Mínima:&nbsp;<span class="minima">00</span>ºC</h4>
               </div>
@@ -215,18 +215,16 @@
         <script>
           var nome = window.localStorage.getItem('nome');
           if (nome !== null) {
-            var estado = window.localStorage.getItem('estado');
-            var municipio = window.localStorage.getItem('municipio');
             var uf = window.localStorage.getItem('uf');
             var temp_media0 = window.localStorage.getItem('temp_media0');
             var maxima0 = window.localStorage.getItem('maxima0');
             var minima0 = window.localStorage.getItem('minima0');
             var tempo0 = window.localStorage.getItem('tempo0');
             var dia0 = window.localStorage.getItem('dia0');
-
+            
             $('#resultadoTempo h2 span').html(nome+' - '+uf+', BR');
             $('.dadosTemperatura h1').html(temp_media0+'ºC');
-            $('.dadosTemperatura h2').html(clima[tempo0]);
+            $('.dadosTemperatura h2 .situacao').html(clima[tempo0]);
             $('.dadosTemperatura h4 .maxima').html(maxima0);
             $('.dadosTemperatura h4 .minima').html(minima0);
 
@@ -244,8 +242,6 @@
             var pullHook = document.getElementById('pull-hook');
             var icon = document.getElementById('pull-hook-icon');
 
-            var estado = window.localStorage.getItem('estado');
-            var municipio = window.localStorage.getItem('municipio');
 
             pullHook.addEventListener('changestate', function (event) {
               switch (event.state) {
@@ -268,11 +264,12 @@
               }
             });           
             var createKitten = function () {
+              var estado = window.localStorage.getItem('estado');
+              var municipio = window.localStorage.getItem('municipio');
               buscaClimaMunicipio(municipio, estado);
             };
             pullHook.onAction = function (done) {
               setTimeout(function() {
-                //$('#aguarde').dialog('open');
                 createKitten()
                 done();
               }, 400);
