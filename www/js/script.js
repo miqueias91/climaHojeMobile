@@ -34,7 +34,8 @@ $('#aguarde').dialog({
 function buscaClimaMunicipio(municipio, estado) {
 	if (municipio !== null && estado !== null) {
 		$.ajax({
-		    url: "https://climahoje.000webhostapp.com/webservice/climahojemobile/buscaClimaMunicipio.php",
+		    //url: "https://climahoje.000webhostapp.com/webservice/climahojemobile/buscaClimaMunicipio.php",
+		    url: "http://localhost/webservice/climahojemobile/buscaClimaMunicipio.php",
 		    dataType: 'json',
 		    type: 'GET',
 		    data: {
@@ -42,6 +43,7 @@ function buscaClimaMunicipio(municipio, estado) {
 		      'municipio': municipio
 		    },
 		    error: function(a) {
+	    		console.log(a)
 		      $('#aguarde').dialog('close');
 		      ons.notification.alert("Erro na comunicação, tente novamente: "+a);
 		      //window.location.reload();
