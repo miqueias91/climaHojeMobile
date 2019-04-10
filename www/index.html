@@ -46,7 +46,7 @@
         <ons-tabbar swipeable id="appTabbar" position="auto">
           <ons-tab label="Home" icon="fa-home" page="home.html" active></ons-tab>
           <ons-tab label="Filtro" icon="fa-filter" page="forms.html"></ons-tab>
-          <ons-tab label="Próximos 7 dias" icon="fa-calendar-alt" page="animations.html"></ons-tab>
+          <ons-tab label="Próximos 6 dias" icon="fa-calendar-alt" page="animations.html"></ons-tab>
         </ons-tabbar>
 
         <script>
@@ -94,7 +94,7 @@
               <ons-icon fixed-width class="list-item__icon" icon="fa-calendar-alt"></ons-icon>
             </div>
             <div class="center">
-              Próximos 7 dias
+              Próximos 6 dias
             </div>
             <div class="right">
               <ons-icon icon="fa-link"></ons-icon>
@@ -390,17 +390,13 @@
                 $('#aguarde').dialog('close');
                 ons.notification.alert('Atenção! Selecione um município.');
               }
-            });
-
-           
+            });           
           }
         </script>
-
         <style>
           .right-icon {
             margin-left: 10px;
           }
-
           .right-label {
             color: #666;
           }
@@ -411,59 +407,72 @@
     <template id="animations.html">
       <ons-page>
         <ons-list>
-          <ons-list-header>Transitions</ons-list-header>
-          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'none'}, 'none')">
-            none
+          <ons-list-header>Previsão Diária</ons-list-header>
+          <ons-list-item style="width: 100%">
+            <div id="dia1" style="width: 50%">XX, XX/XX</div><div  id="temp1">XXºC</div>
           </ons-list-item>
-          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'default'}, 'default')">
-            default
+
+          <ons-list-item style="width: 100%">
+            <div id="dia2" style="width: 50%">XX, XX/XX</div> <div id="temp2" >XXºC</div>
           </ons-list-item>
-          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'slide-ios'}, 'slide-ios')">
-            slide-ios
+
+          <ons-list-item style="width: 100%">
+            <div id="dia3" style="width: 50%">XX, XX/XX</div> <div id="temp3" >XXºC</div>
           </ons-list-item>
-          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'slide-md'}, 'slide-md')">
-            slide-md
+
+          <ons-list-item style="width: 100%">
+            <div id="dia4" style="width: 50%">XX, XX/XX</div> <div id="temp4" >XXºC</div>
           </ons-list-item>
-          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'lift-ios'}, 'lift-ios')">
-            lift-ios
+
+          <ons-list-item style="width: 100%">
+            <div id="dia5" style="width: 50%">XX, XX/XX</div> <div id="temp5" >XXºC</div>
           </ons-list-item>
-          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'lift-md'}, 'lift-md')">
-            lift-md
-          </ons-list-item>
-          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'fade-ios'}, 'fade-ios')">
-            fade-ios
-          </ons-list-item>
-          <ons-list-item modifier="chevron" onclick="fn.pushPage({'id': 'transition.html', 'title': 'fade-md'}, 'fade-md')">
-            fade-md
+
+          <ons-list-item style="width: 100%">
+            <div id="dia6" style="width: 50%">XX, XX/XX</div> <div id="temp6" >XXºC</div>
           </ons-list-item>
         </ons-list>
-      </ons-page>
-    </template>
-
-    <template id="transition.html">
-      <ons-page>
-        <ons-toolbar>
-          <div class="left">
-            <ons-back-button>Animations</ons-back-button>
-          </div>
-          <div class="center"></div>
-        </ons-toolbar>
-        <p style="text-align: center">
-          Use the VOnsBackButton
-        </p>
         <script>
-          ons.getScriptPage().onInit = function () {
-            this.querySelector('ons-toolbar div.center').textContent = this.data.title;
-          }
+            var temp1 = window.localStorage.getItem('temp1');
+            var dia1 = window.localStorage.getItem('dia1');
+
+            var temp2 = window.localStorage.getItem('temp2');
+            var dia2 = window.localStorage.getItem('dia2');
+
+            var temp3 = window.localStorage.getItem('temp3');
+            var dia3 = window.localStorage.getItem('dia3');
+
+            var temp4 = window.localStorage.getItem('temp4');
+            var dia4 = window.localStorage.getItem('dia4');
+
+            var temp5 = window.localStorage.getItem('temp5');
+            var dia5 = window.localStorage.getItem('dia5');
+
+            var temp6 = window.localStorage.getItem('temp6');
+            var dia6 = window.localStorage.getItem('dia6');
+
+            $('#dia1').html(dia1);
+            $('#temp1').html(temp1+'ºC');
+
+            $('#dia2').html(dia2);
+            $('#temp2').html(temp2+'ºC');
+
+            $('#dia3').html(dia3);
+            $('#temp3').html(temp3+'ºC');
+
+            $('#dia4').html(dia4);
+            $('#temp4').html(temp4+'ºC');
+
+            $('#dia5').html(dia5);
+            $('#temp5').html(temp5+'ºC');
+
+            $('#dia6').html(dia6);
+            $('#temp6').html(temp6+'ºC');
         </script>
       </ons-page>
     </template>
 
-    <style>
-      ons-splitter-side[animation=overlay] {
-        border-left: 1px solid #bbb;
-      }
-    </style>
+ 
 
     <!-- JS dependencies (order matters!) -->
     <script type="text/javascript" src="cordova.js"></script>
