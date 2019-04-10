@@ -199,7 +199,7 @@
               <br>
               <div class="dadosTemperatura">
                 <h1>00ºC</h1>
-                <h2>Amanhã</h2>
+                <h2><span class="diaSemana">XXXXXXXXX</span></h2>
                 <h2><span class="situacao">XXXXXXXXX</span></h2>
                 <h4>Máxima:&nbsp;<span class="maxima">00</span>ºC</h4>
                 <h4>Mínima:&nbsp;<span class="minima">00</span>ºC</h4>
@@ -220,15 +220,17 @@
             var maxima0 = window.localStorage.getItem('maxima0');
             var minima0 = window.localStorage.getItem('minima0');
             var tempo0 = window.localStorage.getItem('tempo0');
-            var dia0 = window.localStorage.getItem('dia0');
+            var data_atualizacao = window.localStorage.getItem('data_atualizacao');
+            var dia1 = window.localStorage.getItem('dia1');
             
             $('#resultadoTempo h2 span').html(nome+' - '+uf+', BR');
             $('.dadosTemperatura h1').html(temp_media0+'ºC');
+            $('.dadosTemperatura h2 .diaSemana').html(dia1);
             $('.dadosTemperatura h2 .situacao').html(clima[tempo0]);
             $('.dadosTemperatura h4 .maxima').html(maxima0);
             $('.dadosTemperatura h4 .minima').html(minima0);
 
-            $('#resultadoTempo h3 .data').html(dia0);
+            $('#resultadoTempo h3 .data').html(data_atualizacao);
 
             $("#resultadoTempo").css('display', '');
             $("div#vaziaPesquisa.container").html('');
@@ -409,66 +411,108 @@
         <ons-list>
           <ons-list-header>Previsão Diária</ons-list-header>
           <ons-list-item style="width: 100%">
-            <div id="dia1" style="width: 50%">XX, XX/XX</div><div  id="temp1">XXºC</div>
+            <div id="dia1" style="width: 33.3333%">XX, XX/XX</div><div style="width: 33.3333%" id="temp1">XXºC</div><div style="width: 33.3333%" id="previsaodia1">XXX</div>
           </ons-list-item>
 
           <ons-list-item style="width: 100%">
-            <div id="dia2" style="width: 50%">XX, XX/XX</div> <div id="temp2" >XXºC</div>
+            <div id="dia2" style="width: 33.3333%">XX, XX/XX</div> <div style="width: 33.3333%" id="temp2" >XXºC</div><div style="width: 33.3333%" id="previsaodia2">XXX</div>
           </ons-list-item>
 
           <ons-list-item style="width: 100%">
-            <div id="dia3" style="width: 50%">XX, XX/XX</div> <div id="temp3" >XXºC</div>
+            <div id="dia3" style="width: 33.3333%">XX, XX/XX</div> <div style="width: 33.3333%" id="temp3" >XXºC</div><div style="width: 33.3333%" id="previsaodia3">XXX</div>
           </ons-list-item>
 
           <ons-list-item style="width: 100%">
-            <div id="dia4" style="width: 50%">XX, XX/XX</div> <div id="temp4" >XXºC</div>
+            <div id="dia4" style="width: 33.3333%">XX, XX/XX</div> <div style="width: 33.3333%" id="temp4" >XXºC</div><div style="width: 33.3333%" id="previsaodia4">XXX</div>
           </ons-list-item>
 
           <ons-list-item style="width: 100%">
-            <div id="dia5" style="width: 50%">XX, XX/XX</div> <div id="temp5" >XXºC</div>
+            <div id="dia5" style="width: 33.3333%">XX, XX/XX</div> <div style="width: 33.3333%" id="temp5" >XXºC</div><div style="width: 33.3333%" id="previsaodia5">XXX</div>
           </ons-list-item>
 
           <ons-list-item style="width: 100%">
-            <div id="dia6" style="width: 50%">XX, XX/XX</div> <div id="temp6" >XXºC</div>
+            <div id="dia6" style="width: 33.3333%">XX, XX/XX</div> <div style="width: 33.3333%" id="temp6" >XXºC</div><div style="width: 33.3333%" id="previsaodia6">XXX</div>
           </ons-list-item>
         </ons-list>
         <script>
             var temp1 = window.localStorage.getItem('temp1');
             var dia1 = window.localStorage.getItem('dia1');
+            var previsaodia1 = window.localStorage.getItem('previsaodia1');
 
             var temp2 = window.localStorage.getItem('temp2');
             var dia2 = window.localStorage.getItem('dia2');
+            var previsaodia2 = window.localStorage.getItem('previsaodia2');
 
             var temp3 = window.localStorage.getItem('temp3');
             var dia3 = window.localStorage.getItem('dia3');
+            var previsaodia3 = window.localStorage.getItem('previsaodia3');
 
             var temp4 = window.localStorage.getItem('temp4');
             var dia4 = window.localStorage.getItem('dia4');
+            var previsaodia4 = window.localStorage.getItem('previsaodia4');
 
             var temp5 = window.localStorage.getItem('temp5');
             var dia5 = window.localStorage.getItem('dia5');
+            var previsaodia5 = window.localStorage.getItem('previsaodia5');
 
             var temp6 = window.localStorage.getItem('temp6');
             var dia6 = window.localStorage.getItem('dia6');
+            var previsaodia6 = window.localStorage.getItem('previsaodia6');
 
             $('#dia1').html(dia1);
-            $('#temp1').html(temp1+'ºC');
+            $('#previsaodia1').html(previsaodia1);            
+            if (temp1 !== null) {              
+              $('#temp1').html(temp1+'ºC');
+            }
+            else{
+              $('#temp1').html('');
+            }
 
             $('#dia2').html(dia2);
-            $('#temp2').html(temp2+'ºC');
+            $('#previsaodia2').html(previsaodia2);
+            if (temp2 !== null) {              
+              $('#temp2').html(temp2+'ºC');
+            }
+            else{
+              $('#temp2').html('');
+            }
 
             $('#dia3').html(dia3);
-            $('#temp3').html(temp3+'ºC');
-
+            $('#previsaodia3').html(previsaodia3);
+            if (temp3 !== null) {              
+              $('#temp3').html(temp3+'ºC');
+            }
+            else{
+              $('#temp3').html('');
+            }
+            
             $('#dia4').html(dia4);
-            $('#temp4').html(temp4+'ºC');
-
+            $('#previsaodia4').html(previsaodia4);
+            if (temp4 !== null) {              
+              $('#temp4').html(temp4+'ºC');
+            }
+            else{
+              $('#temp4').html('');
+            }
+            
             $('#dia5').html(dia5);
-            $('#temp5').html(temp5+'ºC');
-
+            $('#previsaodia5').html(previsaodia5);
+            if (temp5 !== null) {              
+              $('#temp5').html(temp5+'ºC');
+            }
+            else{
+              $('#temp5').html('');
+            }
+            
             $('#dia6').html(dia6);
-            $('#temp6').html(temp6+'ºC');
-        </script>
+            $('#previsaodia6').html(previsaodia6);
+            if (temp6 !== null) {              
+              $('#temp6').html(temp6+'ºC');
+            }
+            else{
+              $('#temp6').html('');
+            }
+          </script>
       </ons-page>
     </template>
 
