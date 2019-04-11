@@ -6,7 +6,6 @@
     <meta name="mobile-web-app-capable" content="yes" />
 
     <!-- CSS dependencies -->
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
     <link rel="stylesheet" href="lib/onsen/css/onsenui.css" />
     <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css" />
     <link rel="stylesheet" href="css/jquery-ui.css">
@@ -184,16 +183,16 @@
         <ons-pull-hook id="pull-hook" threshold-height="120px">
           <ons-icon id="pull-hook-icon" size="22px" class="pull-hook-content" icon="fa-arrow-down"></ons-icon>
         </ons-pull-hook>
-
+        
         <ons-list id="kitten-list">
-          <ons-list-header>Puxe para atualizar a previsão</ons-list-header>
-          <div id="vaziaPesquisa" class="container">
+          <div id="vaziaPesquisa" class="container" style="display: none;">
             <p class="intro" >
               Nenhuma pesquisa encontrada, utilize o filtro.<br><br>
             </p>            
           </div>
 
           <div class="container">
+
             <div id="resultadoTempo" class="main" style="display:none;">
               <h2><i class="fas fa-location-arrow"></i>&nbsp;<span>XXXXXXX - XX, XX</span></h2> 
               <br>
@@ -214,31 +213,34 @@
 
         <script>
           var nome = window.localStorage.getItem('nome');
-          if (nome !== null) {
-            var uf = window.localStorage.getItem('uf');
-            var temp_media0 = window.localStorage.getItem('temp_media0');
-            var maxima0 = window.localStorage.getItem('maxima0');
-            var minima0 = window.localStorage.getItem('minima0');
-            var tempo0 = window.localStorage.getItem('tempo0');
-            var data_atualizacao = window.localStorage.getItem('data_atualizacao');
-            var dia1 = window.localStorage.getItem('dia1');
-            
-            $('#resultadoTempo h2 span').html(nome+' - '+uf+', BR');
-            $('.dadosTemperatura h1').html(temp_media0+'ºC');
-            $('.dadosTemperatura h2 .diaSemana').html(dia1);
-            $('.dadosTemperatura h2 .situacao').html(clima[tempo0]);
-            $('.dadosTemperatura h4 .maxima').html(maxima0);
-            $('.dadosTemperatura h4 .minima').html(minima0);
 
-            $('#resultadoTempo h3 .data').html(data_atualizacao);
+          setTimeout(function() {
+            if (nome !== null) {
+              var uf = window.localStorage.getItem('uf');
+              var temp_media0 = window.localStorage.getItem('temp_media0');
+              var maxima0 = window.localStorage.getItem('maxima0');
+              var minima0 = window.localStorage.getItem('minima0');
+              var tempo0 = window.localStorage.getItem('tempo0');
+              var data_atualizacao = window.localStorage.getItem('data_atualizacao');
+              var dia1 = window.localStorage.getItem('dia1');
+              
+              $('#resultadoTempo h2 span').html(nome+' - '+uf+', BR');
+              $('.dadosTemperatura h1').html(temp_media0+'ºC');
+              $('.dadosTemperatura h2 .diaSemana').html(dia1);
+              $('.dadosTemperatura h2 .situacao').html(clima[tempo0]);
+              $('.dadosTemperatura h4 .maxima').html(maxima0);
+              $('.dadosTemperatura h4 .minima').html(minima0);
 
-            $("#resultadoTempo").css('display', '');
-            $("div#vaziaPesquisa.container").html('');
-          }
-          else{
-            $("#resultadoTempo").css('display', 'none');
-            $("#vaziaPesquisa").html('<p class="intro" >Nenhuma pesquisa encontrada, utilize o filtro.<br><br></p>');
-          }
+              $('#resultadoTempo h3 .data').html(data_atualizacao);
+
+              $("#resultadoTempo").css('display', '');
+              $("div#vaziaPesquisa.container").html('');
+            }
+            else{
+              $("#resultadoTempo").css('display', 'none');
+              $("#vaziaPesquisa").html('<p class="intro" >Nenhuma pesquisa encontrada, utilize o filtro.<br><br></p>');
+            }
+          },400);
 
           ons.getScriptPage().onInit = function () {
             var pullHook = document.getElementById('pull-hook');
@@ -258,7 +260,6 @@
                   icon.removeAttribute('spin');
                   break;
                 case 'action':
-                  $('#aguarde').dialog('open');
                   icon.setAttribute('icon', 'fa-spinner');
                   icon.removeAttribute('rotate');
                   icon.setAttribute('spin', true);
@@ -528,7 +529,7 @@
     <script src="js/onesignal.js"></script>
     <script src="js/script.js"></script>
     <script type="text/javascript">
-        //app.initialize();
+        app.initialize();
     </script>
 </body>
 
