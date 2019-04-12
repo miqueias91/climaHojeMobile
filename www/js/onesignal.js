@@ -4,13 +4,15 @@ document.addEventListener('deviceready', function () {
   // window.plugins.OneSignal.getUserId(function(id){alert(id)});
   var notificationOpenedCallback = function(jsonData) {
     //alert('Funcionou!!!!');
-    	window.plugins.OneSignal.getUserId(function(id){alert(id)});
-
   };
-	window.plugins.OneSignal.getUserId(function(id){alert(id)});
 
-  window.plugins.OneSignal
-    .startInit('4eafd905-0ac3-40d3-816a-c8124086a4e1')
-    .handleNotificationOpened(notificationOpenedCallback  )
-    .endInit();
+	window.plugins.OneSignal
+	.startInit('4eafd905-0ac3-40d3-816a-c8124086a4e1')
+	.handleNotificationOpened(notificationOpenedCallback  )
+	.endInit();
+
+	window.plugins.OneSignal.getIds(function(id){
+		alert(id)
+	});
 }, false);
+
