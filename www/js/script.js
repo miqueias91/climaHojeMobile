@@ -9,9 +9,6 @@ $('#aguarde').dialog({
     dialogClass: "no-close",
 });
 
-var userId = window.localStorage.getItem('userId');
-alert(userId)
-
 function buscaClimaMunicipio(municipio, estado) {
 	if (municipio !== null && estado !== null) {
 		$.ajax({
