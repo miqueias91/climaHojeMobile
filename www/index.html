@@ -238,7 +238,7 @@
             }
             else{
               $("#resultadoTempo").css('display', 'none');
-              $("#vaziaPesquisa").html('<p class="intro" >Nenhuma pesquisa encontrada, utilize o filtro.<br><br></p>');
+              $("#vaziaPesquisa").css('display', '');
             }
           },400);
 
@@ -360,7 +360,7 @@
                       },
                       error: function(a) {
                         $('#aguarde').dialog('close');
-                        ons.notification.alert("Erro na comunicação, tente novamente: "+a);
+                        ons.notification.alert("Erro na comunicação, tente novamente. Se o erro persistir verifique sua conexão com a internet.");
                         //window.location.reload();
                       },
                       success: function(a) {
