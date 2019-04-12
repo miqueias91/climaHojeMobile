@@ -11,8 +11,7 @@ document.addEventListener('deviceready', function () {
 	.handleNotificationOpened(notificationOpenedCallback  )
 	.endInit();
 
-	window.plugins.OneSignal.getIds(function(id){
-		alert(id)
-	});
+	let myCustomUniqueUserId = "33999994178";
+	window.plugins.OneSignal.setExternalUserId(myCustomUniqueUserId);
 }, false);
 
