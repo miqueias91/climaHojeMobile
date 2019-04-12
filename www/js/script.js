@@ -9,8 +9,6 @@ $('#aguarde').dialog({
     dialogClass: "no-close",
 });
 
-// OneSignal.getUserId(function(id){alert(id)});
-
 function buscaClimaMunicipio(municipio, estado) {
 	if (municipio !== null && estado !== null) {
 		$.ajax({
