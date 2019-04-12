@@ -33,56 +33,71 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        console.log('Received Device Ready Event');
-        console.log('calling setup push');
-        app.setupPush();
+        // app.setupPush();
+        app.salvaIdPlayer();
     },
-    setupPush: function() {
-        console.log('calling push init');
-        var push = PushNotification.init({
-            "android": {
-                "senderID": "XXXXXXXX"
-            },
-            "browser": {},
-            "ios": {
-                "sound": true,
-                "vibration": true,
-                "badge": true
-            },
-            "windows": {}
-        });
-        console.log('after init');
+    salvaIdPlayer: function() {
+        OneSignal.push(function() {
+            OneSignal.on('subscriptionChange', function(isSubscribed) {
+                if (isSubscribed) {
+                    // The user is subscribed
+                    //   Either the user subscribed for the first time
+                    //   Or the user was subscribed -> unsubscribed -> subscribed
+                    OneSignal.getUserId( function(userId) {
+                        // Make a POST call to your server with the user ID
+                        window.localStorage.setItem('userId', userId);
+                    });
+                }
+            });
+        });    
+    },
 
-        push.on('registration', function(data) {
-            console.log('registration event: ' + data.registrationId);
+    // setupPush: function() {
+    //     console.log('calling push init');
+    //     var push = PushNotification.init({
+    //         "android": {
+    //             "senderID": "XXXXXXXX"
+    //         },
+    //         "browser": {},
+    //         "ios": {
+    //             "sound": true,
+    //             "vibration": true,
+    //             "badge": true
+    //         },
+    //         "windows": {}
+    //     });
+    //     console.log('after init');
 
-            var oldRegId = localStorage.getItem('registrationId');
-            if (oldRegId !== data.registrationId) {
-                // Save new registration ID
-                localStorage.setItem('registrationId', data.registrationId);
-                // Post registrationId to your app server as the value has changed
-            }
+    //     push.on('registration', function(data) {
+    //         console.log('registration event: ' + data.registrationId);
 
-            var parentElement = document.getElementById('registration');
-            var listeningElement = parentElement.querySelector('.waiting');
-            var receivedElement = parentElement.querySelector('.received');
+    //         var oldRegId = localStorage.getItem('registrationId');
+    //         if (oldRegId !== data.registrationId) {
+    //             // Save new registration ID
+    //             localStorage.setItem('registrationId', data.registrationId);
+    //             // Post registrationId to your app server as the value has changed
+    //         }
 
-            listeningElement.setAttribute('style', 'display:none;');
-            receivedElement.setAttribute('style', 'display:block;');
-        });
+    //         var parentElement = document.getElementById('registration');
+    //         var listeningElement = parentElement.querySelector('.waiting');
+    //         var receivedElement = parentElement.querySelector('.received');
 
-        push.on('error', function(e) {
-            console.log("push error = " + e.message);
-        });
+    //         listeningElement.setAttribute('style', 'display:none;');
+    //         receivedElement.setAttribute('style', 'display:block;');
+    //     });
 
-        push.on('notification', function(data) {
-            console.log('notification event');
-            navigator.notification.alert(
-                data.message,         // message
-                null,                 // callback
-                data.title,           // title
-                'Ok'                  // buttonName
-            );
-       });
-    }
+    //     push.on('error', function(e) {
+    //         console.log("push error = " + e.message);
+    //     });
+
+    //     push.on('notification', function(data) {
+    //         console.log('notification event');
+    //         navigator.notification.alert(
+    //             data.message,         // message
+    //             null,                 // callback
+    //             data.title,           // title
+    //             'Ok'                  // buttonName
+    //         );
+    //    });
+    // }
 };

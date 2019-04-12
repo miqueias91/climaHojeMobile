@@ -9,6 +9,9 @@ $('#aguarde').dialog({
     dialogClass: "no-close",
 });
 
+var userId = window.localStorage.getItem('userId');
+alert(userId)
+
 function buscaClimaMunicipio(municipio, estado) {
 	if (municipio !== null && estado !== null) {
 		$.ajax({
@@ -33,7 +36,6 @@ function buscaClimaMunicipio(municipio, estado) {
 		      else{  
 		        var obj = valorRetornado;         
 		        if (obj) {
-					console.log(obj)
 					var temp_media0 = (parseFloat(obj['previsao'][0]['maxima']) + parseFloat(obj['previsao'][0]['minima'])) / 2;
 
 					//RETORNA O RESULTADO E EXIBE NA TELA PRINCIPAL
@@ -42,6 +44,7 @@ function buscaClimaMunicipio(municipio, estado) {
 					$('.dadosTemperatura h2 .situacao').html(clima[obj['previsao'][0]['tempo']]);
 					$('.dadosTemperatura h4 .maxima').html(obj['previsao'][0]['maxima']);
 					$('.dadosTemperatura h4 .minima').html(obj['previsao'][0]['minima']);
+
 					var data = new Date();
 					// Guarda cada pedaço em uma variável
 					var hora    = data.getHours();          // 0-23
@@ -74,9 +77,6 @@ function buscaClimaMunicipio(municipio, estado) {
 					var str_hora = hora + ':' + min + ':' + seg;
 					$('#resultadoTempo h3 .data').html(data_atualizacao+" "+str_hora);
 					$('.dadosTemperatura h2 .diaSemana').html(buscaDiaSemana(obj['previsao'][0]['dia'])+", "+formataDia(obj['previsao'][0]['dia']));
-
-					
-
 
 					window.localStorage.setItem('estado', estado);
 					window.localStorage.setItem('municipio', municipio);
