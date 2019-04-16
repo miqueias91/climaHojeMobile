@@ -10,8 +10,5 @@ document.addEventListener('deviceready', function () {
 	.startInit('4eafd905-0ac3-40d3-816a-c8124086a4e1')
 	.handleNotificationOpened(notificationOpenedCallback  )
 	.endInit();
-
-	let myCustomUniqueUserId = "33999994178";
-	window.plugins.OneSignal.setExternalUserId(myCustomUniqueUserId);
 }, false);
 
