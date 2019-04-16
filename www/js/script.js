@@ -9,6 +9,10 @@ $('#aguarde').dialog({
     dialogClass: "no-close",
 });
 
+window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {		
+	alert(status.subscriptionStatus.userId)
+});
+
 function buscaClimaMunicipio(municipio, estado) {
 	if (municipio !== null && estado !== null) {
 		$.ajax({
