@@ -529,7 +529,21 @@
     <script src="js/onesignal.js"></script>
     <script src="js/script.js"></script>
     <script type="text/javascript">
-        app.initialize();
+        //app.initialize();
+        OneSignal.push(function() {
+          OneSignal.on('subscriptionChange', function(isSubscribed) {
+            if (isSubscribed) {
+              alert("isSubscribed: "+isSubscribed)
+              // The user is subscribed
+              //   Either the user subscribed for the first time
+              //   Or the user was subscribed -> unsubscribed -> subscribed
+              OneSignal.getUserId( function(userId) {
+                alert("userId: "+userId)
+                // Make a POST call to your server with the user ID
+              });
+            }
+          });
+        });
     </script>
 </body>
 
