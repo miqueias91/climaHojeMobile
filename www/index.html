@@ -523,33 +523,11 @@
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script src="js/jquery.3.3.1.js"></script>
-    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
     <script src="lib/onsen/js/onsenui.js"></script>
     <script src="js/script_onsen.js"></script>
     <script src="js/jquery-ui.js"></script>
     <script src="js/onesignal.js"></script>
-    <script src="js/script.js"></script>
-    <script type="text/javascript">
-        //app.initialize();
-        var OneSignal = OneSignal || [];
-        console.log(OneSignal)
-        OneSignal.push(function() {
-          /* These examples are all valid */
-          OneSignal.getUserId(function(userId) {
-            alert("OneSignal User ID:", userId);
-            // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316    
-          });
-                       
-          OneSignal.getUserId().then(function(userId) {
-            alert("OneSignal User ID:", userId);
-            // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316    
-          });
-        });
-          OneSignal.getUserId(function(userId) {
-            alert("OneSignal User ID:", userId);
-            // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316    
-          });
-    </script>
+    <script src="js/script.js"></script>   
 </body>
 
 </html>
