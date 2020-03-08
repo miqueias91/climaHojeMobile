@@ -5914,7 +5914,7 @@ notification._createAlertDialog = function () {
 notification.alert = function (message, options) {
   return notification._createAlertDialog(message, options, {
     buttonLabels: ['OK'],
-    title: 'Alert'
+    title: 'Atenção'
   });
 };
 
