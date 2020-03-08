@@ -65,5 +65,3 @@
     </plugin>
     <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
 </widget>
-
-</widget>
