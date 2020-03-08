@@ -29,6 +29,36 @@
     "phonegap-plugin-push": {
       "SENDER_ID": "XXXXXXX",
       "PACKAGE_NAME": "com.phonegap.climahojemobile"
+    },
+    "cordova-support-google-services": {
+      "PACKAGE_NAME": "com.phonegap.climahojemobile"
+    },
+    "cordova-clipboard": {
+      "PACKAGE_NAME": "com.phonegap.climahojemobile"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "ANDROID_SUPPORT_V4_VERSION": "24.1.1+",
+      "PACKAGE_NAME": "com.phonegap.climahojemobile"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.phonegap.climahojemobile"
+    },
+    "cordova-promise-polyfill": {
+      "PACKAGE_NAME": "com.phonegap.climahojemobile"
+    },
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "com.phonegap.climahojemobile"
+    },
+    "phonegap-plugin-multidex": {
+      "PACKAGE_NAME": "com.phonegap.climahojemobile"
+    },
+    "cordova-admob-sdk": {
+      "PLAY_SERVICES_VERSION": "11.0.4",
+      "PACKAGE_NAME": "com.phonegap.climahojemobile"
+    },
+    "cordova-plugin-admob-free": {
+      "ADMOB_APP_ID": "ca-app-pub-7091486462236476~7559328923",
+      "PACKAGE_NAME": "com.phonegap.climahojemobile"
     }
   },
   "dependent_plugins": {}

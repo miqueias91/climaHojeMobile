@@ -37,6 +37,16 @@
             </intent-filter>
         </service>
         <service android:exported="false" android:name="com.adobe.phonegap.push.RegistrationIntentService" />
+        <receiver android:enabled="true" android:name="nl.xservices.plugins.ShareChooserPendingIntent">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+            </intent-filter>
+        </receiver>
+        <provider android:authorities="${applicationId}.sharing.provider" android:exported="false" android:grantUriPermissions="true" android:name="nl.xservices.plugins.FileProvider">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/sharing_paths" />
+        </provider>
+        <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.android.gms.ads.AdActivity" android:theme="@android:style/Theme.Translucent" />
+        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-7091486462236476~7559328923" />
     </application>
     <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -50,4 +60,5 @@
     <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
     <permission android:name="${applicationId}.permission.C2D_MESSAGE" android:protectionLevel="signature" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

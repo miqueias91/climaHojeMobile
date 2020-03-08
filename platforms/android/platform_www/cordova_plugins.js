@@ -17,20 +17,6 @@ module.exports = [
     ]
   },
   {
-    "id": "cordova-plugin-geolocation.geolocation",
-    "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-    "pluginId": "cordova-plugin-geolocation",
-    "clobbers": [
-      "navigator.geolocation"
-    ]
-  },
-  {
-    "id": "cordova-plugin-geolocation.PositionError",
-    "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-    "pluginId": "cordova-plugin-geolocation",
-    "runs": true
-  },
-  {
     "id": "cordova-plugin-statusbar.statusbar",
     "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
     "pluginId": "cordova-plugin-statusbar",
@@ -141,6 +127,57 @@ module.exports = [
     "clobbers": [
       "PushNotification"
     ]
+  },
+  {
+    "id": "cordova-clipboard.Clipboard",
+    "file": "plugins/cordova-clipboard/www/clipboard.js",
+    "pluginId": "cordova-clipboard",
+    "clobbers": [
+      "cordova.plugins.clipboard"
+    ]
+  },
+  {
+    "id": "es6-promise-plugin.Promise",
+    "file": "plugins/es6-promise-plugin/www/promise.js",
+    "pluginId": "es6-promise-plugin",
+    "runs": true
+  },
+  {
+    "id": "cordova-plugin-x-socialsharing.SocialSharing",
+    "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+    "pluginId": "cordova-plugin-x-socialsharing",
+    "clobbers": [
+      "window.plugins.socialsharing"
+    ]
+  },
+  {
+    "id": "cordova-plugin-splashscreen.SplashScreen",
+    "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+    "pluginId": "cordova-plugin-splashscreen",
+    "clobbers": [
+      "navigator.splashscreen"
+    ]
+  },
+  {
+    "id": "cordova-promise-polyfill.Promise",
+    "file": "plugins/cordova-promise-polyfill/www/Promise.js",
+    "pluginId": "cordova-promise-polyfill",
+    "runs": true
+  },
+  {
+    "id": "cordova-promise-polyfill.promise.min",
+    "file": "plugins/cordova-promise-polyfill/www/promise.min.js",
+    "pluginId": "cordova-promise-polyfill"
+  },
+  {
+    "id": "cordova-plugin-admob-free.AdMob",
+    "file": "plugins/cordova-plugin-admob-free/www/admob.js",
+    "pluginId": "cordova-plugin-admob-free",
+    "clobbers": [
+      "admob",
+      "AdMob",
+      "plugins.AdMob"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -148,12 +185,20 @@ module.exports.metadata =
 {
   "cordova-plugin-console": "1.0.7",
   "cordova-plugin-dialogs": "1.2.1",
-  "cordova-plugin-geolocation": "4.0.1",
   "cordova-plugin-statusbar": "2.1.3",
   "cordova-plugin-whitelist": "1.2.2",
   "cordova.plugins.diagnostic": "4.0.12",
   "onesignal-cordova-plugin": "2.4.6",
-  "phonegap-plugin-push": "1.8.4"
+  "phonegap-plugin-push": "1.8.4",
+  "cordova-support-google-services": "1.3.2",
+  "cordova-clipboard": "1.3.0",
+  "es6-promise-plugin": "4.2.2",
+  "cordova-plugin-x-socialsharing": "5.6.4",
+  "cordova-plugin-splashscreen": "5.0.3",
+  "cordova-promise-polyfill": "0.0.2",
+  "phonegap-plugin-multidex": "1.0.0",
+  "cordova-admob-sdk": "0.24.1",
+  "cordova-plugin-admob-free": "0.27.0"
 };
 // BOTTOM OF METADATA
 });
