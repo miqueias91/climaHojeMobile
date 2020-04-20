@@ -90,7 +90,7 @@
       </div>
     </ons-toolbar>
     <ons-tabbar swipeable id="appTabbar" position="bottom">
-        <ons-tab label="Versão 1.0.4" page="home.html" active></ons-tab>
+        <ons-tab label="Versão 1.0.5" page="home.html" active></ons-tab>
     </ons-tabbar>
 
     <script>
@@ -1199,7 +1199,7 @@
                 var txt_versiculo = $(this).text().substr(2);
                 var livro = $(this).attr('livro');
                 var num_capitulo = $(this).attr('num_capitulo');
-                var num_versiculo = $(this).attr('num_versiculo');
+                var num_versiculo = parseInt($(this).attr('num_versiculo'))+1;
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
               text += 'Versão: Bíblia Sagrada AA\nLink: http://bit.ly/2IvWoT2';
@@ -1216,7 +1216,7 @@
                 var txt_versiculo = $(this).text().substr(2);
                 var livro = $(this).attr('livro');
                 var num_capitulo = $(this).attr('num_capitulo');
-                var num_versiculo = $(this).attr('num_versiculo');
+                var num_versiculo = parseInt($(this).attr('num_versiculo'))+1;
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
 
@@ -1240,7 +1240,7 @@
                 var txt_versiculo = $(this).text().substr(2);
                 var livro = $(this).attr('livro');
                 var num_capitulo = $(this).attr('num_capitulo');
-                var num_versiculo = $(this).attr('num_versiculo');
+                var num_versiculo = parseInt($(this).attr('num_versiculo'))+1;
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
 
@@ -1263,7 +1263,7 @@
                 var txt_versiculo = $(this).text().substr(2);
                 var livro = $(this).attr('livro');
                 var num_capitulo = $(this).attr('num_capitulo');
-                var num_versiculo = $(this).attr('num_versiculo');
+                var num_versiculo = parseInt($(this).attr('num_versiculo'))+1;
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
 
