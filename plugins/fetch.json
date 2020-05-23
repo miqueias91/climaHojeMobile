@@ -146,5 +146,13 @@
     "variables": {
       "ADMOB_APP_ID": "ca-app-pub-7091486462236476~7559328923"
     }
+  },
+  "cordova-plugin-insomnia": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }

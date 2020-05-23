@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.phonegap.climahojemobile" version="1.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Bíblia Sagrada AA</name>
+<widget id="com.phonegap.climahojemobile" version="1.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Bíblia Sagrada Almeida</name>
     <description>
         A Bíblia Sagrada Almeida Revisada Imprensa Bíblica (AA) é uma versão Revisada da Tradução de João Ferreira de Almeida de Acordo os Melhores Textos em Hebraico e Grego.
     </description>
@@ -23,7 +23,6 @@
     <plugin name="cordova-plugin-console" source="npm" spec="~1.0.3" />
     <plugin name="cordova-plugin-dialogs" source="npm" spec="~1.2.1" />
     <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
-    
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
@@ -55,7 +54,6 @@
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
-    <engine name="android" spec="~7.1.4" />
     <plugin name="phonegap-plugin-push" spec="^2.2.3">
         <variable name="ANDROID_SUPPORT_V13_VERSION" value="27.+" />
         <variable name="FCM_VERSION" value="11.6.2" />
@@ -63,5 +61,7 @@
     <plugin name="cordova-plugin-admob-free" spec="^0.27.0">
         <variable name="ADMOB_APP_ID" value="ca-app-pub-7091486462236476~7559328923" />
     </plugin>
-    <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
+    <plugin name="cordova-plugin-x-socialsharing" spec="5.6.4" />
+    <plugin name="cordova-plugin-insomnia" spec="https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git" />
+    <engine name="android" spec="^7.0.0" />
 </widget>

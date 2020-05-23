@@ -25,6 +25,7 @@
       }
 
       document.addEventListener('deviceready', function () {
+        window.plugins.insomnia.keepAwake();
         admob.banner.config({ 
           id: admobid.banner, 
           isTesting: false, 
@@ -64,7 +65,7 @@
       })
     </script>
 
-    <title>Bíblia Sagrada AA</title>
+    <title>Bíblia Sagrada Almeida</title>
 </head>
 
 <body>
@@ -82,7 +83,7 @@
 <template id="tabbar.html">
   <ons-page id="tabbar-page">
     <ons-toolbar id="tabbar_">
-        <div class="center"><center>Bíblia Sagrada AA</center></div>
+        <div class="center"><center>Bíblia Sagrada Almeida</center></div>
       <div class="left">
         <ons-toolbar-button onclick="fn.toggleMenu()">
           <ons-icon style="color: #f5f5f5" icon="ion-navicon, material:md-menu"></ons-icon>
@@ -90,13 +91,13 @@
       </div>
     </ons-toolbar>
     <ons-tabbar swipeable id="appTabbar" position="bottom">
-        <ons-tab label="Versão 1.0.5" page="home.html" active></ons-tab>
+        <ons-tab label="Versão 1.0.6" page="home.html" active></ons-tab>
     </ons-tabbar>
 
     <script>
       ons.getScriptPage().addEventListener('prechange', function(event) {
         if (event.target.matches('#appTabbar')) {
-              event.currentTarget.querySelector('#tabbar_ .center center').innerHTML = 'Bíblia Sagrada AA';
+              event.currentTarget.querySelector('#tabbar_ .center center').innerHTML = 'Bíblia Sagrada Almeida';
         }
       });
     </script>
@@ -1202,7 +1203,7 @@
                 var num_versiculo = parseInt($(this).attr('num_versiculo'))+1;
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
-              text += 'Versão: Bíblia Sagrada AA\nLink: http://bit.ly/2IvWoT2';
+              text += 'Versão: Bíblia Sagrada Almeida\nLink: http://bit.ly/2IvWoT2';
               cordova.plugins.clipboard.copy(text);
               cordova.plugins.clipboard.paste(function (text) { 
                 ons.notification.toast('Copiado para a área de transferência.', { buttonLabel: 'Ok', timeout: 2000 });
@@ -1220,7 +1221,7 @@
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
 
-              text += 'Versão: Bíblia Sagrada AA\nLink: http://bit.ly/2IvWoT2';
+              text += 'Versão: Bíblia Sagrada Almeida\nLink: http://bit.ly/2IvWoT2';
               window.plugins.socialsharing.shareViaWhatsApp(
                 text, 
                 null, 
@@ -1244,7 +1245,7 @@
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
 
-              text += 'Versão: Bíblia Sagrada AA\nLink: http://bit.ly/2IvWoT2';
+              text += 'Versão: Bíblia Sagrada Almeida\nLink: http://bit.ly/2IvWoT2';
               window.plugins.socialsharing.shareViaInstagram(
                 text, 
                 null, 
@@ -1267,7 +1268,7 @@
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
 
-              text += 'Versão: Bíblia Sagrada AA\nLink: http://bit.ly/2IvWoT2';
+              text += 'Versão: Bíblia Sagrada Almeida\nLink: http://bit.ly/2IvWoT2';
               window.plugins.socialsharing.shareViaTwitter(text);
             });
           }

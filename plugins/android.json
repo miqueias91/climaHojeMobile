@@ -59,6 +59,9 @@
     "cordova-plugin-admob-free": {
       "ADMOB_APP_ID": "ca-app-pub-7091486462236476~7559328923",
       "PACKAGE_NAME": "com.phonegap.climahojemobile"
+    },
+    "cordova-plugin-insomnia": {
+      "PACKAGE_NAME": "com.phonegap.climahojemobile"
     }
   },
   "dependent_plugins": {}

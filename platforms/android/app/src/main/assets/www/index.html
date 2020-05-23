@@ -25,6 +25,7 @@
       }
 
       document.addEventListener('deviceready', function () {
+        window.plugins.insomnia.keepAwake();
         admob.banner.config({ 
           id: admobid.banner, 
           isTesting: false, 
@@ -64,7 +65,7 @@
       })
     </script>
 
-    <title>Bíblia Sagrada AA</title>
+    <title>Bíblia Sagrada Almeida</title>
 </head>
 
 <body>
@@ -82,7 +83,7 @@
 <template id="tabbar.html">
   <ons-page id="tabbar-page">
     <ons-toolbar id="tabbar_">
-        <div class="center"><center>Bíblia Sagrada AA</center></div>
+        <div class="center"><center>Bíblia Sagrada Almeida</center></div>
       <div class="left">
         <ons-toolbar-button onclick="fn.toggleMenu()">
           <ons-icon style="color: #f5f5f5" icon="ion-navicon, material:md-menu"></ons-icon>
@@ -90,13 +91,13 @@
       </div>
     </ons-toolbar>
     <ons-tabbar swipeable id="appTabbar" position="bottom">
-        <ons-tab label="Versão 1.0.3" page="home.html" active></ons-tab>
+        <ons-tab label="Versão 1.0.6" page="home.html" active></ons-tab>
     </ons-tabbar>
 
     <script>
       ons.getScriptPage().addEventListener('prechange', function(event) {
         if (event.target.matches('#appTabbar')) {
-              event.currentTarget.querySelector('#tabbar_ .center center').innerHTML = 'Bíblia Sagrada AA';
+              event.currentTarget.querySelector('#tabbar_ .center center').innerHTML = 'Bíblia Sagrada Almeida';
         }
       });
     </script>
@@ -1042,7 +1043,7 @@
           <ons-back-button>Texto do Livro</ons-back-button>
         </div>
         <div class="center"></div>
-        <div class="right"></div>
+        <div class="right" id="rolagem" style="color: #f5f5f5;margin-right: 16px;">Rolagem</div>
       </ons-toolbar>
       <div id='textoLivro'></div>
 
@@ -1084,6 +1085,24 @@
         <ons-icon icon="fa-angle-left"></ons-icon>
       </ons-fab>
 
+      <ons-fab id="controle_rolagem" position="bottom center" style="display:none;bottom:0;background-color:#eceff1!important;opacity:1!important;border-radius:0!important;width:100%!important;left:0;margin-left:0;height: 60px">
+        <p>
+          <ons-row>
+            <ons-col id="pausar_rolagem" width="40px" style="text-align: center; line-height: 31px;color: #333">
+              <ons-icon id="pause" icon="md-pause"></ons-icon>
+              <ons-icon id="play" icon="md-play" style="display: none;"></ons-icon>
+            </ons-col>
+
+            <ons-col>
+              <ons-range id="velocidade" style="width: 100%;" value="30" max="50" min="10"></ons-range>
+            </ons-col>
+
+            <ons-col id="fechar_rolagem" width="40px" style="text-align: center; line-height: 31px;color: #333">
+              <ons-icon icon="md-close"></ons-icon>
+            </ons-col>
+          </ons-row>
+        </p>
+      </ons-fab>
         <script>
           ons.getScriptPage().onInit = function () {
             var dados = this.data.title.split('||'); 
@@ -1095,35 +1114,84 @@
             var timeoutID = 0;
             clearTimeout(timeoutID);
             timeoutID = setTimeout(function() { fn.hideDialog('modal-aguarde') }, 100);
+            document.getElementById('velocidade').addEventListener('input', function (event) {
+              velocidade = 0;
+              velocidade = parseInt(event.target.value);
+            })
 
             $("#atual").val(dados[3]);
 
-            $( "#proximo" ).click(function() {
-                if (parseInt($("#atual").val()) < parseInt(ultimoCap)) {
-                    $("#atual").val(parseInt($("#atual").val())+1)
+            $( "#rolagem" ).click(function() {
+              if (rolagem == 0) {
+                $("#controle_rolagem").css("display","");
+                velocidade = 30;
+                $("#velocidade").val(velocidade);
+                rolagem = 1;
+                app.rolar();
+              }
+            });
 
-                    //CHAMA DA FUNÇÃO PARA ABRIR MODAL
-                    fn.showDialog('modal-aguarde');
-                    app.buscaTexto('aa',dados[0],parseInt($("#atual").val()), dados[1]);
-                    $('#textoLivro_ div.center').html(dados[1]+' '+parseInt($("#atual").val()));
-                    var timeoutID = 0;
-                    clearTimeout(timeoutID);
-                    timeoutID = setTimeout(function() { fn.hideDialog('modal-aguarde') }, 100);
-                }      
+            $( "#pausar_rolagem" ).click(function() {
+              if (pausar == 0) {
+                tmp_velocidade = velocidade;
+                velocidade = 0;
+                pausar = 1;
+                $("#pause").css("display","none");
+                $("#play").css("display","");
+              }
+              else{
+                velocidade = tmp_velocidade;
+                pausar = 0;
+                $("#pause").css("display","");
+                $("#play").css("display","none");
+                app.rolar();
+              }
+            });
+
+            $( "#fechar_rolagem" ).click(function() {
+              velocidade = 0;
+              rolagem = 0;
+              $("#controle_rolagem").css("display","none");
+            });
+
+            $( "#proximo" ).click(function() {
+              if (parseInt($("#atual").val()) < parseInt(ultimoCap)) {
+                inicioLeitura = 0;
+                velocidade = 0;
+                pausar = 0;
+                rolagem = 0;
+
+                $("#controle_rolagem").css("display","none");
+                $("#atual").val(parseInt($("#atual").val())+1);
+
+                //CHAMA DA FUNÇÃO PARA ABRIR MODAL
+                fn.showDialog('modal-aguarde');
+                app.buscaTexto('aa',dados[0],parseInt($("#atual").val()), dados[1]);
+                $('#textoLivro_ div.center').html(dados[1]+' '+parseInt($("#atual").val()));
+                var timeoutID = 0;
+                clearTimeout(timeoutID);
+                timeoutID = setTimeout(function() { fn.hideDialog('modal-aguarde') }, 100);
+              }      
             });
 
             $( "#anterior" ).click(function() {
-                if (parseInt($("#atual").val()) > 1) {
-                    $("#atual").val(parseInt($("#atual").val())-1)
+              if (parseInt($("#atual").val()) > 1) {
+                inicioLeitura = 0;
+                velocidade = 0;
+                pausar = 0;
+                rolagem = 0;
 
-                    //CHAMA DA FUNÇÃO PARA ABRIR MODAL
-                    fn.showDialog('modal-aguarde');
-                    app.buscaTexto('aa',dados[0],parseInt($("#atual").val()), dados[1]);
-                    $('#textoLivro_ div.center').html(dados[1]+' '+parseInt($("#atual").val()));
-                    var timeoutID = 0;
-                    clearTimeout(timeoutID);
-                    timeoutID = setTimeout(function() { fn.hideDialog('modal-aguarde') }, 100);
-                }      
+                $("#controle_rolagem").css("display","none");
+                $("#atual").val(parseInt($("#atual").val())-1);
+
+                //CHAMA DA FUNÇÃO PARA ABRIR MODAL
+                fn.showDialog('modal-aguarde');
+                app.buscaTexto('aa',dados[0],parseInt($("#atual").val()), dados[1]);
+                $('#textoLivro_ div.center').html(dados[1]+' '+parseInt($("#atual").val()));
+                var timeoutID = 0;
+                clearTimeout(timeoutID);
+                timeoutID = setTimeout(function() { fn.hideDialog('modal-aguarde') }, 100);
+              }      
             });
 
             $( ".copiar" ).click(function() {
@@ -1132,10 +1200,10 @@
                 var txt_versiculo = $(this).text().substr(2);
                 var livro = $(this).attr('livro');
                 var num_capitulo = $(this).attr('num_capitulo');
-                var num_versiculo = $(this).attr('num_versiculo');
+                var num_versiculo = parseInt($(this).attr('num_versiculo'))+1;
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
-              text += 'Versão: Bíblia Sagrada AA\nLink: http://bit.ly/2IvWoT2';
+              text += 'Versão: Bíblia Sagrada Almeida\nLink: http://bit.ly/2IvWoT2';
               cordova.plugins.clipboard.copy(text);
               cordova.plugins.clipboard.paste(function (text) { 
                 ons.notification.toast('Copiado para a área de transferência.', { buttonLabel: 'Ok', timeout: 2000 });
@@ -1149,11 +1217,11 @@
                 var txt_versiculo = $(this).text().substr(2);
                 var livro = $(this).attr('livro');
                 var num_capitulo = $(this).attr('num_capitulo');
-                var num_versiculo = $(this).attr('num_versiculo');
+                var num_versiculo = parseInt($(this).attr('num_versiculo'))+1;
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
 
-              text += 'Versão: Bíblia Sagrada AA\nLink: http://bit.ly/2IvWoT2';
+              text += 'Versão: Bíblia Sagrada Almeida\nLink: http://bit.ly/2IvWoT2';
               window.plugins.socialsharing.shareViaWhatsApp(
                 text, 
                 null, 
@@ -1173,11 +1241,11 @@
                 var txt_versiculo = $(this).text().substr(2);
                 var livro = $(this).attr('livro');
                 var num_capitulo = $(this).attr('num_capitulo');
-                var num_versiculo = $(this).attr('num_versiculo');
+                var num_versiculo = parseInt($(this).attr('num_versiculo'))+1;
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
 
-              text += 'Versão: Bíblia Sagrada AA\nLink: http://bit.ly/2IvWoT2';
+              text += 'Versão: Bíblia Sagrada Almeida\nLink: http://bit.ly/2IvWoT2';
               window.plugins.socialsharing.shareViaInstagram(
                 text, 
                 null, 
@@ -1196,11 +1264,11 @@
                 var txt_versiculo = $(this).text().substr(2);
                 var livro = $(this).attr('livro');
                 var num_capitulo = $(this).attr('num_capitulo');
-                var num_versiculo = $(this).attr('num_versiculo');
+                var num_versiculo = parseInt($(this).attr('num_versiculo'))+1;
                 text += txt_versiculo+' '+livro+' '+num_capitulo+':'+num_versiculo+'\n\n';
               });
 
-              text += 'Versão: Bíblia Sagrada AA\nLink: http://bit.ly/2IvWoT2';
+              text += 'Versão: Bíblia Sagrada Almeida\nLink: http://bit.ly/2IvWoT2';
               window.plugins.socialsharing.shareViaTwitter(text);
             });
           }
