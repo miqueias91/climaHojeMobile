@@ -15,55 +15,12 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="lib/onsen/js/onsenui.js"></script>
     <script type="text/javascript" src="lib/SocialSharing/SocialSharing.js"></script>
-    <script>
-      var admobid = {}
-      if (/(android)/i.test(navigator.userAgent)) {  // for android & amazon-fireos
-        admobid = {
-          banner: 'ca-app-pub-7091486462236476/5015752600',
-          interstitial: 'ca-app-pub-7091486462236476/7586075629',
-        }
-      }
-
-      document.addEventListener('deviceready', function () {
-        window.plugins.insomnia.keepAwake();
-        admob.banner.config({ 
-          id: admobid.banner, 
-          isTesting: false, 
-          autoShow: true, 
-        })
-        admob.banner.prepare()
-        
-        admob.interstitial.config({
-          id: admobid.interstitial,
-          isTesting: false,
-          autoShow: false,
-        })
-        admob.interstitial.prepare()
-
-        document.getElementsByClassName('showAd').disabled = true
-        document.getElementsByClassName('showAd').onclick = function() {
-          admob.interstitial.show()
-        }
-      }, false);
-
-      document.addEventListener('admob.banner.events.LOAD_FAIL', function(event) {
-        //alert(JSON.stringify(event))
-      })
-
-      document.addEventListener('admob.interstitial.events.LOAD_FAIL', function(event) {
-        //alert(JSON.stringify(event))
-      })
-
-      document.addEventListener('admob.interstitial.events.LOAD', function(event) {
-        //alert(JSON.stringify(event))
-        document.getElementsByClassName('showAd').disabled = false
-      })
-
-      document.addEventListener('admob.interstitial.events.CLOSE', function(event) {
-        //alert(JSON.stringify(event))
-        admob.interstitial.prepare()
-      })
-    </script>
+    <script type="text/javascript" src="js/admob.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-auth.js"></script>
+    <script src="js/firebase.js"></script>
 
     <title>Bíblia Sagrada Almeida</title>
 </head>
@@ -91,7 +48,7 @@
       </div>
     </ons-toolbar>
     <ons-tabbar swipeable id="appTabbar" position="bottom">
-        <ons-tab label="Versão 1.0.6" page="home.html" active></ons-tab>
+        <ons-tab label="Versão 1.0.7" page="home.html" active></ons-tab>
     </ons-tabbar>
 
     <script>
@@ -171,19 +128,7 @@
         </div>
       </ons-list-item>
 
-      <ons-list-item onclick="fn.loadLink('https://play.google.com/store/apps/details?id=com.phonegap.calculadorabasic')">
-        <div class="left">
-            <i class="fas fa-comments"></i>
-        </div>
-        <div class="center">
-          Quiz da Bíblia
-        </div>
-        <div class="right">
-          <ons-icon icon="fa-external-link"></ons-icon>
-        </div>
-      </ons-list-item>
-
-      <ons-list-item onclick="fn.loadLink('https://www.instagram.com/oficialumavidacomdeus/')">
+      <ons-list-item onclick="fn.loadLink('https://www.instagram.com/oficial.umavidacomdeus/')">
         <div class="left">
             <i class="fab fa-instagram"></i>
         </div>
@@ -194,19 +139,6 @@
           <ons-icon icon="fa-external-link"></ons-icon>
         </div>
       </ons-list-item>
-
-      <ons-list-item onclick="fn.loadLink('https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=332375636-d8a2e7ce-a38d-4b8c-b080-5b277b3df2a5')">
-        <div class="left">
-          <i class="fas fa-hand-holding-usd"></i>
-        </div>
-        <div class="center">
-          Doe
-        </div>
-        <div class="right">
-          <ons-icon icon="fa-external-link"></ons-icon>
-        </div>
-      </ons-list-item>
-
 
       <ons-list-item onclick="fn.loadLink('https://play.google.com/store/apps/collection/cluster?clp=igNKChkKEzU4MzY0OTEwMzM3MTQyMDQzODIQCBgDEisKJWNvbS5waG9uZWdhcC5naXJpYXNlc3RhZG9zYnJhc2lsZWlyb3MQARgDGAE%3D:S:ANO1ljIUr74&gsr=Ck2KA0oKGQoTNTgzNjQ5MTAzMzcxNDIwNDM4MhAIGAMSKwolY29tLnBob25lZ2FwLmdpcmlhc2VzdGFkb3NicmFzaWxlaXJvcxABGAMYAQ%3D%3D:S:ANO1ljJSHsA')">
         <div class="left">
@@ -343,7 +275,7 @@
   <ons-page>
         <ons-toolbar id="configuracao_">
             <div class="left">
-                <ons-back-button>Palavra do Dia</ons-back-button>
+                <ons-back-button>Configuração</ons-back-button>
             </div>
             <div class="center"></div>
         </ons-toolbar>
@@ -376,21 +308,6 @@
           </div>
         </ons-list-item>
 
-        <!--<ons-list-item>
-          <div class="left">
-          </div>
-          <div class="center">
-            Rolagem automática
-          </div>
-          <div class="right">
-            <label class="switch">
-              <input type="checkbox" class="switch__input">
-              <div class="switch__toggle">
-                <div class="switch__handle"></div>
-              </div>
-            </label>
-          </div>
-        </ons-list-item>-->
       </ons-list>
     <script>
         ons.getScriptPage().onInit = function () {
@@ -398,7 +315,6 @@
           modo_noturno = JSON.parse(localStorage.getItem('modo-noturno'));
           $("#modo_noturno").attr("checked",modo_noturno);
           
-          $("#textoVersiculo").html('');
           this.querySelector('#configuracao_ div.center').textContent = 'Configuração';
 
           $( "#modo_noturno" ).click(function() {
@@ -427,7 +343,7 @@
             <ons-icon icon="md-minus"></ons-icon>
           </ons-col>
           <ons-col>
-            <ons-range id="range-slider" style="width: 100%;" value="20" min="10" max="25"></ons-range>
+            <ons-range id="range-slider" style="width: 100%;" value="20" min="10" max="35"></ons-range>
           </ons-col>
           <ons-col width="40px" style="text-align: center; line-height: 31px;">
             <ons-icon icon="md-plus"></ons-icon>
