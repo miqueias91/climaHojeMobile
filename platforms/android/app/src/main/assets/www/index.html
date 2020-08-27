@@ -12,15 +12,63 @@
 
     <!-- JS dependencies (order matters!) -->
     <script type="text/javascript" src="cordova.js"></script>
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="lib/onsen/js/onsenui.js"></script>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="lib/onsen/js/onsenui.js"></script>
     <script type="text/javascript" src="lib/SocialSharing/SocialSharing.js"></script>
-    <script type="text/javascript" src="js/admob.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-auth.js"></script>
-    <script src="js/firebase.js"></script>
+    <script type="text/javascript" src="js/firebase.js"></script>
+    <script type="text/javascript">
+      var admobid = {}
+      if (/(android)/i.test(navigator.userAgent)) {
+        admobid = {
+          banner: 'ca-app-pub-7091486462236476/5015752600',
+          interstitial: 'ca-app-pub-7091486462236476/7586075629',
+        }
+      }
+
+      document.addEventListener('deviceready', function () {
+        window.plugins.insomnia.keepAwake();
+        admob.banner.config({ 
+          id: admobid.banner, 
+          isTesting: false, 
+          autoShow: true, 
+        })
+        admob.banner.prepare()
+        
+        admob.interstitial.config({
+          id: admobid.interstitial,
+          isTesting: false,
+          autoShow: false,
+        })
+        admob.interstitial.prepare()
+
+        document.getElementsByClassName('showAd').disabled = true
+        document.getElementsByClassName('showAd').onclick = function() {
+          admob.interstitial.show()
+        }
+      }, false);
+
+      document.addEventListener('admob.banner.events.LOAD_FAIL', function(event) {
+        // alert(JSON.stringify(event))
+      });
+
+      document.addEventListener('admob.interstitial.events.LOAD_FAIL', function(event) {
+        // alert(JSON.stringify(event))
+      });
+
+      document.addEventListener('admob.interstitial.events.LOAD', function(event) {
+        // alert(JSON.stringify(event))
+        document.getElementsByClassName('showAd').disabled = false
+      });
+
+      document.addEventListener('admob.interstitial.events.CLOSE', function(event) {
+        // alert(JSON.stringify(event))
+        admob.interstitial.prepare()
+      });
+    </script>
 
     <title>Bíblia Sagrada Almeida</title>
 </head>
@@ -48,9 +96,8 @@
       </div>
     </ons-toolbar>
     <ons-tabbar swipeable id="appTabbar" position="bottom">
-        <ons-tab label="Versão 1.0.7" page="home.html" active></ons-tab>
+        <ons-tab label="Versão 1.0.8" page="home.html" active></ons-tab>
     </ons-tabbar>
-
     <script>
       ons.getScriptPage().addEventListener('prechange', function(event) {
         if (event.target.matches('#appTabbar')) {
@@ -66,8 +113,8 @@
     <div class="profile-pic">
       <img src="img/logo.png">
     </div>
-
     <ons-list>
+
       <ons-list-item onclick="fn.pushPage({'id': 'biblia.html', 'title': 'Bíblia Sagrada'})">
         <div class="left">
           <i class="fas fa-book-open"></i>
@@ -192,16 +239,11 @@
 
 <template id="home.html">
   <ons-page>
-<p class="intro">A Bíblia Sagrada, Versão Revisada da Tradução de João Ferreira de Almeida de Acordo os Melhores Textos em Hebraico e Grego, comumente conhecida como: Almeida Revisada, Versão Revisada, ou Almeida segundo Melhores Textos; foi lançada em 1967 na cidade do Rio de Janeiro, Brasil, pela Imprensa Bíblica Brasileira, divisão da JUERP. Os tradutores a consideram uma nova revisão da tradução de João Ferreira de Almeida, sendo sua linguagem erudita (Português antigo e arcaico) baseada na Revista e Corrigida edição de 1898, porém, segundo os editores, a Versão Revisada está de acordo com os melhores manuscritos, e os mais antigos e respeitados em exegese bíblica.</p>
-
-<p class="intro">A Versão Revisada foi realizada com o intuito de incorporar os avanços na escola eclética de crítica textual bíblica à Bíblia comum brasileira, e de atualizar vocabulário obsoleto, que era mal compreendido ou simplesmente não compreendido mesmo pelo leitor culto brasileiro.</p>
-
-<p class="intro">Utilizou o texto grego de Nestlé-Alland, 25ª edição.</p>
-
-<p class="intro">A edição subseqüente, de 1974, não sofreu alterações significativas.</p>
-
-<p class="intro">Foi sucedida pela Almeida Século 21 (ou XXI), da mesma editora mas em parceria com outras editoras evangélicas brasileiras, sob coordenação de Luís Alberto Teixeira Sayão.</p>
-
+    <p class="intro">A Bíblia Sagrada, Versão Revisada da Tradução de João Ferreira de Almeida de Acordo os Melhores Textos em Hebraico e Grego, comumente conhecida como: Almeida Revisada, Versão Revisada, ou Almeida segundo Melhores Textos; foi lançada em 1967 na cidade do Rio de Janeiro, Brasil, pela Imprensa Bíblica Brasileira, divisão da JUERP. Os tradutores a consideram uma nova revisão da tradução de João Ferreira de Almeida, sendo sua linguagem erudita (Português antigo e arcaico) baseada na Revista e Corrigida edição de 1898, porém, segundo os editores, a Versão Revisada está de acordo com os melhores manuscritos, e os mais antigos e respeitados em exegese bíblica.</p>
+    <p class="intro">A Versão Revisada foi realizada com o intuito de incorporar os avanços na escola eclética de crítica textual bíblica à Bíblia comum brasileira, e de atualizar vocabulário obsoleto, que era mal compreendido ou simplesmente não compreendido mesmo pelo leitor culto brasileiro.</p>
+    <p class="intro">Utilizou o texto grego de Nestlé-Alland, 25ª edição.</p>
+    <p class="intro">A edição subseqüente, de 1974, não sofreu alterações significativas.</p>
+    <p class="intro">Foi sucedida pela Almeida Século 21 (ou XXI), da mesma editora mas em parceria com outras editoras evangélicas brasileiras, sob coordenação de Luís Alberto Teixeira Sayão.</p>
 
     <style>
       .intro {
