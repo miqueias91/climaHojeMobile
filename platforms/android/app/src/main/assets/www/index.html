@@ -12,8 +12,8 @@
 
     <!-- JS dependencies (order matters!) -->
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="lib/onsen/js/onsenui.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="lib/onsen/js/onsenui.js"></script>
     <script type="text/javascript" src="lib/SocialSharing/SocialSharing.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-analytics.js"></script>
@@ -33,14 +33,14 @@
         window.plugins.insomnia.keepAwake();
         admob.banner.config({ 
           id: admobid.banner, 
-          isTesting: false, 
+          isTesting: true, 
           autoShow: true, 
         })
         admob.banner.prepare()
         
         admob.interstitial.config({
           id: admobid.interstitial,
-          isTesting: false,
+          isTesting: true,
           autoShow: false,
         })
         admob.interstitial.prepare()
@@ -96,8 +96,9 @@
       </div>
     </ons-toolbar>
     <ons-tabbar swipeable id="appTabbar" position="bottom">
-        <ons-tab label="Versão 1.0.10" page="home.html" active></ons-tab>
+        <ons-tab label="Versão 1.0.11" page="home.html" active></ons-tab>
     </ons-tabbar>
+
     <script>
       ons.getScriptPage().addEventListener('prechange', function(event) {
         if (event.target.matches('#appTabbar')) {
@@ -113,8 +114,8 @@
     <div class="profile-pic">
       <img src="img/logo.png">
     </div>
-    <ons-list>
 
+    <ons-list>
       <ons-list-item onclick="fn.pushPage({'id': 'biblia.html', 'title': 'Bíblia Sagrada'})">
         <div class="left">
           <i class="fas fa-book-open"></i>
@@ -148,7 +149,6 @@
           <ons-icon icon="fa-link"></ons-icon>
         </div>
       </ons-list-item>
-
 
       <ons-list-item onclick="fn.pushPage({'id': 'versiculosMarcados.html', 'title': 'Versículos Marcados'})">
         <div class="left">
@@ -186,7 +186,43 @@
         </div>
       </ons-list-item>
 
-      <ons-list-item onclick="fn.loadLink('https://www.instagram.com/oficial.umavidacomdeus/')">
+      <ons-list-item onclick="fn.pushPage({'id': 'notificacoes.html', 'title': 'Notificações'})">
+        <div class="left">
+          <i class="fas fa-bell"></i>
+        </div>
+        <div class="center">
+          Notificações
+        </div>
+        <div class="right">
+          <ons-icon icon="fa-link"></ons-icon>
+        </div>
+      </ons-list-item>
+
+      <ons-list-item onclick="fn.loadLink('https://play.google.com/store/apps/details?id=com.phonegap.calculadorabasic')">
+        <div class="left">
+            <i class="fas fa-tasks"></i>
+        </div>
+        <div class="center">
+          Quiz da Bíblia
+        </div>
+        <div class="right">
+          <ons-icon icon="fa-external-link"></ons-icon>
+        </div>
+      </ons-list-item>
+
+      <ons-list-item onclick="fn.loadLink('https://play.google.com/store/apps/details?id=com.innovatesoft.giriasdecrente')">
+        <div class="left">
+            <i class="fas fa-book"></i>
+        </div>
+        <div class="center">
+          Dicionário de Crente
+        </div>
+        <div class="right">
+          <ons-icon icon="fa-external-link"></ons-icon>
+        </div>
+      </ons-list-item>
+
+      <ons-list-item onclick="fn.loadLink('https://www.instagram.com/innovatesoft/')">
         <div class="left">
             <i class="fab fa-instagram"></i>
         </div>
@@ -198,7 +234,7 @@
         </div>
       </ons-list-item>
 
-      <ons-list-item onclick="fn.loadLink('https://play.google.com/store/apps/collection/cluster?clp=igNKChkKEzU4MzY0OTEwMzM3MTQyMDQzODIQCBgDEisKJWNvbS5waG9uZWdhcC5naXJpYXNlc3RhZG9zYnJhc2lsZWlyb3MQARgDGAE%3D:S:ANO1ljIUr74&gsr=Ck2KA0oKGQoTNTgzNjQ5MTAzMzcxNDIwNDM4MhAIGAMSKwolY29tLnBob25lZ2FwLmdpcmlhc2VzdGFkb3NicmFzaWxlaXJvcxABGAMYAQ%3D%3D:S:ANO1ljJSHsA')">
+      <ons-list-item onclick="fn.loadLink('https://bit.ly/3l9zjYi')">
         <div class="left">
           <i class="fab fa-google-play"></i>
         </div>
@@ -255,7 +291,6 @@
     <p class="intro">Utilizou o texto grego de Nestlé-Alland, 25ª edição.</p>
     <p class="intro">A edição subseqüente, de 1974, não sofreu alterações significativas.</p>
     <p class="intro">Foi sucedida pela Almeida Século 21 (ou XXI), da mesma editora mas em parceria com outras editoras evangélicas brasileiras, sob coordenação de Luís Alberto Teixeira Sayão.</p>
-
     <style>
       .intro {
         text-align: justify;
@@ -288,17 +323,18 @@
         </div>
 
     <script>
-        ons.getScriptPage().onInit = function () {
-            admob.interstitial.show();
-            $("#textoVersiculo").html('');
-            this.querySelector('#versiculosMarcados_ div.center').textContent = 'Versículos Marcados';
-            var lista_marcadores = JSON.parse(localStorage.getItem('lista-versiculos') || '[]');
-            if (lista_marcadores) {
-              for(var i=0; i<lista_marcadores.length; i++) {
-                app.buscaVersiculo('aa',lista_marcadores[i]['livro']+"||"+lista_marcadores[i]['num_capitulo']+"."+(parseInt(lista_marcadores[i]['num_versiculo'])+0),"textoVersiculo"); 
-              }   
-            }
+      ons.getScriptPage().onInit = function () {
+        //app.registraAcesso('aa/versiculosMarcados.html');
+        //admob.interstitial.show();
+        $("#textoVersiculo").html('');
+        this.querySelector('#versiculosMarcados_ div.center').textContent = 'Versículos Marcados';
+        var lista_marcadores = JSON.parse(localStorage.getItem('lista-versiculos') || '[]');
+        if (lista_marcadores) {
+          for(var i=0; i<lista_marcadores.length; i++) {
+            app.buscaVersiculo('aa',lista_marcadores[i]['livro']+"||"+lista_marcadores[i]['num_capitulo']+"."+(parseInt(lista_marcadores[i]['num_versiculo'])+0),"textoVersiculo"); 
+          }   
         }
+      }
     </script>
     <style>
         .button-margin {
@@ -361,13 +397,25 @@
           </div>
         </ons-list-item>
 
+        <ons-list-item onclick="fn.pushPage({'id': 'versoes.html', 'title': 'Versões'})">
+          <div class="left">
+          </div>
+          <div class="center">
+            Versões
+          </div>
+          <div class="right">
+            <ons-icon icon="fa-angle-right"></ons-icon>
+          </div>
+        </ons-list-item>
       </ons-list>
     <script>
         ons.getScriptPage().onInit = function () {
-          admob.interstitial.show();
+          //admob.interstitial.show();
+          //app.registraAcesso('aa/configuracao.html');
           modo_noturno = JSON.parse(localStorage.getItem('modo-noturno'));
           $("#modo_noturno").attr("checked",modo_noturno);
           
+          $("#textoVersiculo").html('');
           this.querySelector('#configuracao_ div.center').textContent = 'Configuração';
 
           $( "#modo_noturno" ).click(function() {
@@ -434,13 +482,15 @@
         </div>
 
     <script>
-        ons.getScriptPage().onInit = function () {
-            admob.interstitial.show();
-            $("#textoVersiculo").html('');
-            this.querySelector('#palavraDia_ div.center').textContent = 'Palavra do Dia';
-            var versiculos = ['Mt||11.28','Jo||15.7','at||1.8','Fp||1.6','2Sm||22.31','Mt||11.28','Hb||10.23','Fp||1.6','2Pe||1.4','Mt||5.8','Rm||1.6','Mt||10.32','Is||44.3','Jr||29.11','Fp||4.19','Ap||3.20','Ef||1.4','Ef||1.13','Mt||28.19','Jo||14.18','Jo||8.32','Mt||24.35','Sl||126.5','Jo||8.12','Jo||15.16','Hb||13.5','Tg||4.7','Mt||6.33','Jo||10.10','Jr||33.3','at||1.8','Hb||10.35-36','1Jo||5.4','Js||1.9','Js||1.9','Rm||8.1','Sl||31.24','Sl||91.1','Hb||12.1','2Tm||4.7','Rm||12.21','1Ts||5.17','Jo||14.18','Fp||4.12-13','1Co||15.55','Rm||8.38-39','Sl||41.1','Rm||8.31','Fp||4.6','Fp||4.13'];
-            app.buscaVersiculo('aa',versiculos[parseInt(Math.random()*50)],"textoVersiculo");
-        }
+      ons.getScriptPage().onInit = function () {
+        //admob.interstitial.show();
+        //app.registraAcesso('aa/palavraDia.html');
+        $("#textoVersiculo").html('');
+        this.querySelector('#palavraDia_ div.center').textContent = 'Palavra do Dia';
+        var versiculos = ['Mt||11.28','Jo||15.7','at||1.8','Fp||1.6','2Sm||22.31','Mt||11.28','Hb||10.23','Fp||1.6','2Pe||1.4','Mt||5.8','Rm||1.6','Mt||10.32','Is||44.3','Jr||29.11','Fp||4.19','Ap||3.20','Ef||1.4','Ef||1.13','Mt||28.19','Jo||14.18','Jo||8.32','Mt||24.35','Sl||126.5','Jo||8.12','Jo||15.16','Hb||13.5','Tg||4.7','Mt||6.33','Jo||10.10','Jr||33.3','at||1.8','Hb||10.35-36','1Jo||5.4','Js||1.9','Js||1.9','Rm||8.1','Sl||31.24','Sl||91.1','Hb||12.1','2Tm||4.7','Rm||12.21','1Ts||5.17','Jo||14.18','Fp||4.12-13','1Co||15.55','Rm||8.38-39','Sl||41.1','Rm||8.31','Fp||4.6','Fp||4.13','Nm||23.19','Js||21.45','Js||23.14','1Jo||2.25','Ez||36.26','1Jo||1.9','1Rs||8.56','Dt||28.9','Jl||2.32','Sl||145.13','2||Pe||1.4','Tg||1.12','Sl||138.4','2Co||7.1','Sl||119.50','2Pe||3.9','Gl||3.16','Jo||16.33','Mt||6.26','Sl||34.10','Mt||6.11','Sl||23.1','Sl||4.8','Is||40.31','Jo||14.27','Lc||12.15','Dt||31.6','Hb||13.6','Rm||8.28','Tg||1.5','Sl||37.4','Mt||17.20','Is||41.10'];
+
+        app.buscaVersiculoDia(versiculos[(parseInt(Math.random()*(versiculos.length)) - 1)],"textoVersiculo");
+      }
     </script>
     <style>
         .button-margin {
@@ -480,23 +530,24 @@
 
     <script>
         ons.getScriptPage().onInit = function () {
-            admob.interstitial.show();
-            $("#textoCapitulosLidos").html('');
-            this.querySelector('#capitulosLidos_ div.center').textContent = 'Capítulos Lidos';
-            var lista_capitulos = JSON.parse(localStorage.getItem('lista-capitulos') || '[]');
-            lista_capitulos = JSON.parse(localStorage.getItem('lista-capitulos'));
-            if (lista_capitulos) {
-              for(var i=0; i<lista_capitulos.length; i++) {
-                $("#textoCapitulosLidos").append(
-                    '<ons-list-item class="showAd">'+
-                    '    <div class="left"></div>'+
-                    '    <div class="center" style="font-size: 20px;">'+lista_capitulos[i]+'</div>'+
-                    '    <div class="right"></div>'+
-                    '</ons-list-item>'
-                );
-               
-              }   
-            }
+          //admob.interstitial.show();
+          //app.registraAcesso('aa/capitulosLidos.html');
+          $("#textoCapitulosLidos").html('');
+          this.querySelector('#capitulosLidos_ div.center').textContent = 'Capítulos Lidos';
+          var lista_capitulos = JSON.parse(localStorage.getItem('lista-capitulos') || '[]');
+          lista_capitulos = JSON.parse(localStorage.getItem('lista-capitulos'));
+          if (lista_capitulos) {
+            for(var i=0; i<lista_capitulos.length; i++) {
+              $("#textoCapitulosLidos").append(
+                  '<ons-list-item class="showAd">'+
+                  '    <div class="left"></div>'+
+                  '    <div class="center" style="font-size: 20px;">'+lista_capitulos[i]+'</div>'+
+                  '    <div class="right"></div>'+
+                  '</ons-list-item>'
+              );
+             
+            }   
+          }
         }
     </script>
     <style>
@@ -552,6 +603,7 @@
     </div>
     <script>
         ons.getScriptPage().onInit = function () {
+          //app.registraAcesso('aa/biblia.html');
           this.querySelector('#biblia_ div.center').textContent = 'Bíblia Sagrada';
           var abriu_pesquisa_biblia = false
           $( "#botao_pesquisa_biblia" ).click(function() {
@@ -834,9 +886,10 @@
 
     <script>
         ons.getScriptPage().onInit = function () {
-          admob.interstitial.show();
+          //admob.interstitial.show();
+          //app.registraAcesso('aa/harpa.html');
           fn.showDialog('modal-aguarde');
-          app.listaHinario('harpa');
+          app.listaHinario();
           var timeoutID = 0;
           clearTimeout(timeoutID);
           timeoutID = setTimeout(function() { fn.hideDialog('modal-aguarde') }, 5);
@@ -888,6 +941,7 @@
 
 <template id="antigoTestamento.html">
     <ons-page id="antigoTestamento_" class="">
+        <input type="hidden" id="FireBaseUserId" value="">
         <input type="hidden" id="OneSignalUserId" value="">
         <input type="hidden" id="OneSignalPushToken" value="">
 
@@ -1101,7 +1155,8 @@
 
     <script>
         ons.getScriptPage().onInit = function () {
-            this.querySelector('#antigoTestamento_ div.center').textContent = 'Antigo Testamento';
+          //app.registraAcesso('aa/antigoTestamento.html');
+          this.querySelector('#antigoTestamento_ div.center').textContent = 'Antigo Testamento';
         }
     </script>
     <style>        
@@ -1272,7 +1327,8 @@
     </ons-list>
     <script>
         ons.getScriptPage().onInit = function () {
-            this.querySelector('#novoTestamento_ div.center').textContent = 'Novo Testamento';
+          //app.registraAcesso('aa/novoTestamento.html');
+          this.querySelector('#novoTestamento_ div.center').textContent = 'Novo Testamento';
         }
     </script>
     <style>        
@@ -1300,22 +1356,22 @@
              
         </div>
         <script>
-        ons.getScriptPage().onInit = function () {
-            admob.interstitial.show();
+          ons.getScriptPage().onInit = function () {
+            //admob.interstitial.show();
             var dados = this.data.title.split('||'); 
             this.querySelector('#conteudoLivro_ div.center').textContent = dados[1];
             $("#conteudoLivro").html('');
             for (var i = 0; i < parseInt(dados[2]); i++) {
-                var cap = i+1;
-                $("#conteudoLivro").append(
-                    '<ons-list-item onclick="fn.pushPage({\'id\': \'textoLivro.html\', \'title\': \''+dados[0]+'||'+dados[1]+'||'+dados[2]+'||'+cap+'\'})">'
-                        +'<div class="left"></div>'
-                        +'<div class="center" style="font-size: 20px;">Capítulo '+cap+'</div>'
-                        +'<div class="right"><ons-icon icon="fa-angle-right"></ons-icon></div>'
-                    +'</ons-list-item>'
-                );
+              var cap = i+1;
+              $("#conteudoLivro").append(
+                  '<ons-list-item onclick="fn.pushPage({\'id\': \'textoLivro.html\', \'title\': \''+dados[0]+'||'+dados[1]+'||'+dados[2]+'||'+cap+'\'})">'
+                      +'<div class="left"></div>'
+                      +'<div class="center" style="font-size: 20px;">Capítulo '+cap+'</div>'
+                      +'<div class="right"><ons-icon icon="fa-angle-right"></ons-icon></div>'
+                  +'</ons-list-item>'
+              );
             }
-        }
+          }
         </script>
         <style>
           .button-margin {
@@ -1334,7 +1390,10 @@
         <div class="center"></div>
         <div class="right" id="rolagem" style="color: #f5f5f5;margin-right: 16px;">Rolagem</div>
       </ons-toolbar>
-      <div id='textoLivro'></div>
+
+      <div id='textoLivro'>
+        
+      </div>
 
       <ons-fab class="copiar" position="top left" style="display: none;">
         <ons-icon icon="md-copy"></ons-icon>
@@ -1392,17 +1451,25 @@
           </ons-row>
         </p>
       </ons-fab>
+
+
+
         <script>
           ons.getScriptPage().onInit = function () {
             var dados = this.data.title.split('||'); 
             var ultimoCap = dados[2];
+            //app.registraAcesso('aa/textoLivro.html?livro='+dados[0]+'&cap='+dados[3]);
             this.querySelector('#textoLivro_ div.center').textContent = dados[1]+' '+dados[3];
             //CHAMA DA FUNÇÃO PARA ABRIR MODAL
             fn.showDialog('modal-aguarde');
-            app.buscaTexto('aa',dados[0],dados[3], dados[1]);
+            var versaoId = window.localStorage.getItem('versao-biblia');
+
+            app.buscaTexto(versaoId,dados[0],dados[3], dados[1]);
+            
             var timeoutID = 0;
             clearTimeout(timeoutID);
             timeoutID = setTimeout(function() { fn.hideDialog('modal-aguarde') }, 100);
+
             document.getElementById('velocidade').addEventListener('input', function (event) {
               velocidade = 0;
               velocidade = parseInt(event.target.value);
@@ -1451,11 +1518,13 @@
                 rolagem = 0;
 
                 $("#controle_rolagem").css("display","none");
-                $("#atual").val(parseInt($("#atual").val())+1);
 
+                $("#atual").val(parseInt($("#atual").val())+1)
+                //app.registraAcesso('aa/textoLivro.html?livro='+dados[0]+'&cap='+parseInt($("#atual").val()));
                 //CHAMA DA FUNÇÃO PARA ABRIR MODAL
                 fn.showDialog('modal-aguarde');
-                app.buscaTexto('aa',dados[0],parseInt($("#atual").val()), dados[1]);
+                var versaoId = window.localStorage.getItem('versao-biblia');
+                app.buscaTexto(versaoId,dados[0],parseInt($("#atual").val()), dados[1]);
                 $('#textoLivro_ div.center').html(dados[1]+' '+parseInt($("#atual").val()));
                 var timeoutID = 0;
                 clearTimeout(timeoutID);
@@ -1471,11 +1540,12 @@
                 rolagem = 0;
 
                 $("#controle_rolagem").css("display","none");
-                $("#atual").val(parseInt($("#atual").val())-1);
-
+                $("#atual").val(parseInt($("#atual").val())-1)
+                //app.registraAcesso('aa/textoLivro.html?livro='+dados[0]+'&cap='+parseInt($("#atual").val()));
                 //CHAMA DA FUNÇÃO PARA ABRIR MODAL
                 fn.showDialog('modal-aguarde');
-                app.buscaTexto('aa',dados[0],parseInt($("#atual").val()), dados[1]);
+                var versaoId = window.localStorage.getItem('versao-biblia');
+                app.buscaTexto(versaoId,dados[0],parseInt($("#atual").val()), dados[1]);
                 $('#textoLivro_ div.center').html(dados[1]+' '+parseInt($("#atual").val()));
                 var timeoutID = 0;
                 clearTimeout(timeoutID);
@@ -1580,11 +1650,12 @@
         <div id='conteudoHarpa'></div>
         <script>
         ons.getScriptPage().onInit = function () {
-          admob.interstitial.show();
+          //admob.interstitial.show();
           var dados = this.data.title.split('||'); 
+          //app.registraAcesso('aa/conteudoHarpa.html?livro='+dados[0]);
           this.querySelector('#conteudoHarpa_ div.center').textContent = dados[0]+' - '+dados[1];
           $("#conteudoHarpa").html('');
-          app.buscaHinario('harpa',dados[0]);
+          app.buscaHinario(dados[0]);
         }
         </script>
         <style>
@@ -1593,6 +1664,369 @@
           }
         </style>
     </ons-page>
+</template>
+
+<template id="notificacoes.html">
+  <ons-page>
+        <ons-toolbar id="notificacoes_">
+            <div class="left">
+                <ons-back-button>Notificações</ons-back-button>
+            </div>
+            <div class="center"></div>
+            <div class="right" id="limpar_notificacoes" style="color: #f5f5f5;margin-right: 16px;">Limpar</div>
+
+        </ons-toolbar>
+        <div id="textoNotificacoes">
+        </div>
+    <script>
+      ons.getScriptPage().onInit = function () {
+        //admob.interstitial.show();
+        //app.registraAcesso('aa/notificacoes.html');
+        this.querySelector('#notificacoes_ div.center').textContent = 'Notificações';
+
+
+      $( "#limpar_notificacoes" ).click(function() {
+          localStorage.removeItem("lista-notificacoes");
+          $("#textoNotificacoes").html(
+          '<ons-list-item>'+
+          '    <p class="intro" style="text-align:center!important">Nenhuma notificação encontrada.</p>'+
+          '</ons-list-item>'
+          );
+        });
+
+
+
+
+
+
+        notificacoes = JSON.parse(localStorage.getItem('lista-notificacoes'));
+        if (notificacoes) {
+          notificacoes = notificacoes.reverse();
+          var texto_notificacoes = '';
+
+          $.each(notificacoes, function (key, item) {
+            var titulo = item['titulo'];
+            var mensagem = item['mensagem'];
+            var data_notificacao = item['data_notificacao'];
+            var id_not = item['id'];
+            var lido = item['lido'];
+            var link = item['link'];
+            texto_notificacoes += 
+              '<ons-list-item onclick="fn.pushPage({\'id\': \'notificacao.html\', \'title\': \'Notificação||'+id_not+'\'})">'+
+              '    <p class="intro texto_notificacoes">'+
+              '      <b>'+titulo+'</b></br></br>';
+              
+              if (lido == 'nao') {
+                texto_notificacoes += '<b>'+mensagem+'</b></br></br>';
+              }
+              else{
+                texto_notificacoes += mensagem+'</br></br>';
+              }
+
+            texto_notificacoes +=
+              '      <i style="float: right!important;">'+data_notificacao+'</i>'+
+              '    </p>'+
+              '  </ons-list-item>';
+          });
+          $("#textoNotificacoes").html(texto_notificacoes);
+        }
+        else{
+          $("#textoNotificacoes").html(
+          '<ons-list-item>'+
+          '    <p class="intro" style="text-align:center!important">Nenhuma notificação encontrada.</p>'+
+          '</ons-list-item>'
+          );
+        }
+      }
+    </script>
+    <style>
+      .texto_notificacoes {
+        max-width: 35ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+        .button-margin {
+            margin: 6px 0;
+        }
+
+      .intro {
+        text-align: left;
+        padding: 0 20px;
+        margin-top: 40px;
+      }
+
+      ons-card {
+        cursor: pointer;
+        color: #333;
+      }
+
+      .card__title,
+      .card--material__title {
+        font-size: 20px;
+      }
+    </style>
+  </ons-page>
+</template>
+
+<template id="notificacao.html">
+  <ons-page>
+        <ons-toolbar id="notificacao_">
+            <div class="left">
+                <ons-back-button id="back_notificacoes">Notificação</ons-back-button>
+            </div>
+            <div class="center"></div>
+        </ons-toolbar>
+        <div id="textoNotificacao">
+        </div>
+    <script>
+      ons.getScriptPage().onInit = function () {
+        //app.registraAcesso('aa/notificacao.html');
+        var dados = this.data.title.split('||'); 
+        this.querySelector('#notificacao_ div.center').textContent = dados[0];
+        notificacoes = JSON.parse(localStorage.getItem('lista-notificacoes'));
+        if (notificacoes) {
+          localStorage.removeItem('lista-notificacoes');
+          var lista_notificacao = JSON.parse(localStorage.getItem('lista-notificacoes') || '[]');
+          var texto_notificacao = '';
+          $.each(notificacoes, function (key, item) {
+            var titulo = '';
+            var mensagem = '';
+            var hash = '';
+            var lido = '';
+            var data_notificacao = '';
+            var link = '';
+            if (item['id'] == dados[1]) {
+              titulo = item['titulo'];
+              mensagem = item['mensagem'];
+              data_notificacao = item['data_notificacao'];
+              hash = item['id'];
+              link = item['link'] ? item['link'] : '';
+              lido = 'sim';
+
+              texto_notificacao += 
+                '<ons-list-item>'+
+                '    <p class="intro">'+
+                '      <b>'+titulo+'</b></br></br>'+
+                '      '+mensagem+'</br></br>'+
+                '      '+link+'</br></br>'+
+                '      <i style="float: right!important;">'+data_notificacao+'</i>'+
+                '    </p>'+
+                '  </ons-list-item>';
+
+              lista_notificacao.push({id: hash, titulo: titulo, mensagem: mensagem, lido: lido, data_notificacao: data_notificacao, link: link});
+              localStorage.setItem("lista-notificacoes", JSON.stringify(lista_notificacao));
+            }
+            else{
+              titulo = item['titulo'];
+              mensagem = item['mensagem'];
+              data_notificacao = item['data_notificacao'];
+              hash = item['id'];
+              lido = item['lido'];
+              link = item['link'] ? item['link'] : '';
+              if (item['id']) {
+                lista_notificacao.push({id: hash, titulo: titulo, mensagem: mensagem, lido: lido, data_notificacao: data_notificacao, link: link});
+                localStorage.setItem("lista-notificacoes", JSON.stringify(lista_notificacao));
+              }
+            }
+          });
+
+          $("#textoNotificacao").html(texto_notificacao);
+        }
+        else{
+          $("#textoNotificacao").html(
+          '<ons-list-item>'+
+          '    <p class="intro" style="text-align:center!important">Nenhuma notificação encontrada.</p>'+
+          '</ons-list-item>'
+          );
+        }
+
+        $( "#back_notificacoes" ).click(function() {
+          notificacoes = JSON.parse(localStorage.getItem('lista-notificacoes'));
+          if (notificacoes) {
+            notificacoes = notificacoes.reverse();
+            var texto_notificacoes = '';
+
+            $.each(notificacoes, function (key, item) {
+              var titulo = item['titulo'];
+              var mensagem = item['mensagem'];
+              var data_notificacao = item['data_notificacao'];
+              var id_not = item['id'];
+              var lido = item['lido'];
+              var link = item['link'];
+              texto_notificacoes += 
+                '<ons-list-item onclick="fn.pushPage({\'id\': \'notificacao.html\', \'title\': \'Notificação||'+id_not+'\'})">'+
+                '    <p class="intro texto_notificacoes">'+
+                '      <b>'+titulo+'</b></br></br>';
+                
+                if (lido == 'nao') {
+                  texto_notificacoes += '<b>'+mensagem+'</b></br></br>';
+                }
+                else{
+                  texto_notificacoes += mensagem+'</br></br>';
+                }
+
+              texto_notificacoes +=
+                '      <i style="float: right!important;">'+data_notificacao+'</i>'+
+                '    </p>'+
+                '  </ons-list-item>';
+            });
+            $("#textoNotificacoes").html(texto_notificacoes);
+          }
+          else{
+            $("#textoNotificacoes").html(
+            '<ons-list-item>'+
+            '    <p class="intro" style="text-align:center!important">Nenhuma notificação encontrada.</p>'+
+            '</ons-list-item>'
+            );
+          }
+        });
+      }
+    </script>
+    <style>
+        .button-margin {
+            margin: 6px 0;
+        }
+
+      .intro {
+        text-align: left;
+        padding: 0 20px;
+        margin-top: 40px;
+      }
+
+      ons-card {
+        cursor: pointer;
+        color: #333;
+      }
+
+      .card__title,
+      .card--material__title {
+        font-size: 20px;
+      }
+    </style>
+  </ons-page>
+</template>
+<template id="versoes.html">
+  <ons-page>
+    <ons-toolbar id="versoes_">
+      <div class="left">
+          <ons-back-button>Versões</ons-back-button>
+      </div>
+      <div class="center"></div>
+      <div class="right"></div>
+    </ons-toolbar>
+    <div>
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-radio class="versao" input-id="aa" value="aa"></ons-radio>
+        </label>
+        <label for="aa" class="center">Bíblia Sagrada AA</label>
+      </ons-list-item>
+
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-radio class="versao" input-id="nvi" value="nvi"></ons-radio>
+        </label>
+        <label for="nvi" class="center">Bíblia Sagrada NVI</label>
+      </ons-list-item>
+
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-radio class="versao" input-id="acf" value="acf"></ons-radio>
+        </label>
+        <label for="acf" class="center">Bíblia Sagrada ACF</label>
+      </ons-list-item>
+
+      <ons-list-item tappable modifier="longdivider">
+        <label class="left">
+          <ons-radio class="versao" input-id="arc" value="arc"></ons-radio>
+        </label>
+        <label for="arc" class="center">Bíblia Sagrada ARC</label>
+      </ons-list-item>
+
+      <ons-list-item tappable modifier="longdivider">
+        <label class="left">
+          <ons-radio class="versao" input-id="viva" value="viva"></ons-radio>
+        </label>
+        <label for="viva" class="center">Bíblia Sagrada Viva</label>
+      </ons-list-item>
+
+      <ons-list-item tappable modifier="longdivider">
+        <label class="left">
+          <ons-radio class="versao" input-id="ntlh" value="ntlh"></ons-radio>
+        </label>
+        <label for="ntlh" class="center">Bíblia Sagrada NTLH</label>
+      </ons-list-item>
+      
+      <ons-list-item tappable modifier="longdivider">
+        <label class="left">
+          <ons-radio class="versao" input-id="pt_kja" value="pt_kja"></ons-radio>
+        </label>
+        <label for="pt_kja" class="center">Bíblia Sagrada KJA (PT)</label>
+      </ons-list-item>
+
+      <ons-list-item tappable modifier="longdivider">
+        <label class="left">
+          <ons-radio class="versao" input-id="en_kjv" value="en_kjv"></ons-radio>
+        </label>
+        <label for="en_kjv" class="center">Bíblia Sagrada KJV (EN)</label>
+      </ons-list-item>
+    </div>
+    <script>
+      ons.getScriptPage().onInit = function () {
+        //admob.interstitial.show();
+        //app.registraAcesso('aa/versoes.html');
+        this.querySelector('#versoes_ div.center').textContent = 'Versões';
+        if (!window.localStorage.getItem('versao-biblia')) {
+          versaoId = 'aa';
+        }
+        else{
+          var versaoId = window.localStorage.getItem('versao-biblia');
+        }
+
+        document.getElementById(versaoId).checked = true;
+
+        const radios = document.querySelectorAll('.versao')
+        for (var i = 0; i < radios.length; i++) {
+          var radio = radios[i];
+          radio.addEventListener('change', function (event) {
+            if (event.target.id !== versaoId) {
+              localStorage.setItem("versao-biblia", event.target.value); 
+              document.getElementById(versaoId).checked = false;
+              versaoId = event.target.id;
+            }
+          })
+        }
+      }
+    </script>
+    <style>
+      .texto_notificacoes {
+        max-width: 35ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+        .button-margin {
+            margin: 6px 0;
+        }
+
+      .intro {
+        text-align: left;
+        padding: 0 20px;
+        margin-top: 40px;
+      }
+
+      ons-card {
+        cursor: pointer;
+        color: #333;
+      }
+
+      .card__title,
+      .card--material__title {
+        font-size: 20px;
+      }
+    </style>
+  </ons-page>
 </template>
 <script src="js/index.js"></script>
 

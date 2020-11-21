@@ -1,19 +1,30 @@
 window.fn = {};
 $("#existeProximoCapitulo").val(0)
-var ultimo_livro_lido = localStorage.getItem('ultimo_livro_lido');
-var ultimo_livro_lido_abr = localStorage.getItem('ultimo_livro_lido_abr');
-var ultimo_capitulo_lido = localStorage.getItem('ultimo_capitulo_lido');
 var id = '';
 var usar_cores = 0;
-var fonte_versiculo = JSON.parse(localStorage.getItem('fonte-versiculo') || '20');
-localStorage.setItem("fonte-versiculo", fonte_versiculo);
-var modo_noturno = JSON.parse(localStorage.getItem('modo-noturno') || false);
-localStorage.setItem("modo-noturno", modo_noturno);
 var inicioLeitura = 0;
 var velocidade = 0;
 var tamanho = 826;
 var pausar = 0;
 var rolagem = 0;
+
+var ultimo_livro_lido = localStorage.getItem('ultimo_livro_lido');
+var ultimo_livro_lido_abr = localStorage.getItem('ultimo_livro_lido_abr');
+var ultimo_capitulo_lido = localStorage.getItem('ultimo_capitulo_lido');
+var fonte_versiculo = JSON.parse(localStorage.getItem('fonte-versiculo') || '20');
+localStorage.setItem("fonte-versiculo", fonte_versiculo);
+var modo_noturno = JSON.parse(localStorage.getItem('modo-noturno') || false);
+localStorage.setItem("modo-noturno", modo_noturno);
+
+if (!window.localStorage.getItem('versao-biblia')) {
+  localStorage.setItem("versao-biblia", 'aa'); 
+}
+var versaoId = window.localStorage.getItem('versao-biblia');
+
+var lista_notificacao = JSON.parse(localStorage.getItem('lista-notificacoes') || '[]');
+if (window.localStorage.getItem('userId')) {
+  localStorage.removeItem('userId');
+}
 
 window.fn.toggleMenu = function () {
   document.getElementById('appSplitter').left.toggle();
@@ -42,8 +53,6 @@ window.fn.showDialog = function (id) {
   elem.show();            
 };
 
-
-
 var showTemplateDialog = function() {
   var dialog = document.getElementById('my-dialog');
 
@@ -56,7 +65,6 @@ var showTemplateDialog = function() {
       });
   }
 };
-
 //SCRIPT PARA ESCONDER O MODAL DE AGUARDE
 window.fn.hideDialog = function (id) {
   document.getElementById(id).hide();
@@ -81,7 +89,22 @@ var app = {
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {
-    console.log('receivedEvent');
+    this.oneSignal();
+    this.getIds();
+    this.buscaNotificacoes();
+  },
+  oneSignal: function() {
+    window.plugins.OneSignal
+    .startInit("ecf7845e-b569-49e8-ab05-cc8dea377b03")   
+    .handleNotificationOpened(function(jsonData) {
+      var mensagem = JSON.parse(JSON.stringify(jsonData['notification']['payload']['additionalData']['mensagem']));
+      ons.notification.alert(
+        mensagem,
+        {title: 'Mensagem'}
+      );
+    })
+    .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
+    .endInit();
   },
   //FUNÇÃO DE BUSCA
   onSearchKeyDown: function(id) {
@@ -137,7 +160,7 @@ var app = {
     }
     return false;
   },  
-  buscaTexto: function(version,livro,capitulo, nome) {
+  buscaTexto: function(versaoId,livro,capitulo, nome) {
     inicioLeitura = 0;
     localStorage.setItem("ultimo_livro_lido", nome);
     localStorage.setItem("ultimo_livro_lido_abr", livro);
@@ -146,13 +169,13 @@ var app = {
     modo_noturno = JSON.parse(localStorage.getItem('modo-noturno'));
 
     $("#textoLivro").html('');
-    var version = version || "aa";
+    var versaoId = versaoId || "aa";
     var selector = this;
     var texts = [];
 
     $.ajax({
       type : "GET",
-      url : "js/"+version+".json",
+      url : "js/"+versaoId+".json",
       dataType : "json",
       success : function(data){
         $(selector).each(function(){
@@ -211,12 +234,13 @@ var app = {
           if (parseInt($("#existeProximoCapitulo").val()) == 1) {
             obj.text += '<br><br><section style="margin: 16px"><ons-button capitulo_marcado="'+capitulo_marcado+'" modifier="large" class="button-margin marcar_capitulo" livro_marcar="'+livro+'" num_capitulo_marcar="'+capitulo+'">MARCAR CAPÍTULO COMO LIDO</ons-button></section>'
             $("#textoLivro").html(obj.text);
+
           }
           else{
             $("#atual").val(parseInt($("#atual").val())-1);
             localStorage.setItem("ultimo_capitulo_lido", parseInt($("#atual").val()));
             $('#textoLivro_ div.center').html(ultimo_livro_lido+' '+parseInt($("#atual").val()));
-            app.buscaTexto('aa',ultimo_livro_lido_abr,parseInt($("#atual").val()), ultimo_livro_lido);
+            app.buscaTexto(versaoId,ultimo_livro_lido_abr,parseInt($("#atual").val()), ultimo_livro_lido);
           }
           $("#existeProximoCapitulo").val(0);
         });
@@ -304,8 +328,8 @@ var app = {
               $('#'+id).css("color",color);
               lista_versiculos = JSON.parse(localStorage.getItem('lista-versiculos'));
               app.retirarMarcadorVersiculo(livro, num_capitulo, num_versiculo, lista_versiculos);
-            } 
-          }     
+            }      
+          }      
         });
 
         $( ".cores" ).click(function() {
@@ -357,9 +381,9 @@ var app = {
   parar: function() {
     clearTimeout(t);
   },
-  buscaVersiculo: function(version,livro_capitulo_versiculo, id) {
+  buscaVersiculo: function(versaoId,livro_capitulo_versiculo, id) {
     $("#textoLivro").html('');
-    var version = version || "aa";
+    var versaoId = versaoId || "aa";
     var selector = this;
     var texts = [];
     var dados0 = livro_capitulo_versiculo.split('||');
@@ -367,10 +391,9 @@ var app = {
     var dados1 = dados0[1].split('.');
     var capitulo = dados1[0];
     var versiculo = dados1[1];
-
     $.ajax({
       type : "GET",
-      url : "js/"+version+".json",
+      url : "js/"+versaoId+".json",
       dataType : "json",
       success : function(data){
         $(selector).each(function(){
@@ -409,14 +432,66 @@ var app = {
       }
     });
   },
-  buscaHinario: function(version,id) {
-    var version = version || "harpa";
+  buscaVersiculoDia: function(livro_capitulo_versiculo, id) {
+    $("#textoLivro").html('');
+    var selector = this;
+    var texts = [];
+    var dados0 = livro_capitulo_versiculo.split('||');
+    var livro = dados0[0];
+    var dados1 = dados0[1].split('.');
+    var capitulo = dados1[0];
+    var versiculo = (dados1[1]-1);
+    $.ajax({
+      type : "GET",
+      url : "js/aa.json",
+      dataType : "json",
+      success : function(data){
+        $(selector).each(function(){
+          var ref = livro+""+capitulo+"."+versiculo;
+          var reg = new RegExp('([0-9]?[a-zA-Z]{2,3})([0-9]+)[\.|:]([0-9]+)-?([0-9]{1,3})?');
+          var regex = reg.exec(ref);                    
+          var myBook = null;
+          var obj_v = {
+            ref : ref,
+            book : regex[1].toLowerCase(),
+            chapter : parseInt(regex[2]),
+            text : ""
+          };
+
+          for(i in data){
+            if(data[i].abbrev == obj_v.book){
+                myBook = data[i];
+            }
+          }
+          var start = parseInt(regex[3]);
+          var end = parseInt(regex[4]) || parseInt(regex[3]);
+
+
+          for(var i = start; i <=  end; i++){
+            console.log(myBook)
+            console.log(myBook.name)
+            if (myBook.chapters[obj_v.chapter - 1][i]) {
+                obj_v.text += '<ons-list-item onclick="fn.pushPage({\'id\': \'textoLivro.html\', \'title\': \''+myBook.abbrev+'||'+myBook.name+'||'+myBook.chapters.length+'||'+(parseInt(capitulo))+'\'});">'+
+
+                  '<p style="font-size: 20px;line-height:30px;text-align:justify">'+
+                    myBook.chapters[obj_v.chapter - 1][i] +
+                  '</p>'+
+                  '<p style="font-size: 15px;">'+livro.toUpperCase()+' '+capitulo+':'+(parseInt(i)+1)+'</p>'+
+                '</ons-list-item>';
+            }
+          }
+          $("#"+id).append(obj_v.text);
+        });
+      }
+    });
+  },
+  buscaHinario: function(id) {
     var selector = this;
     var texto = "";
 
     $.ajax({
       type : "GET",
-      url : "js/"+version+".json",
+      url : "js/harpa.json",
       dataType : "json",
       success : function(data){
         $(selector).each(function(){
@@ -459,8 +534,7 @@ var app = {
       }
     });
   },
-  listaHinario: function(version) {
-    var version = version || "harpa";
+  listaHinario: function() {
     var text = "";
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -478,7 +552,7 @@ var app = {
         $("#listaharpa").html(text);
       }
     };
-    xmlhttp.open("GET", "js/"+version+".json", true);
+    xmlhttp.open("GET", "js/harpa.json", true);
     xmlhttp.send();
   },
   pesquisaHarpa: function(term){
@@ -519,6 +593,8 @@ var app = {
     }
   },
   pesquisaBiblia: function(term){
+    var versaoId = versaoId || "aa";
+
     if (term != '') {
       term = term.toLowerCase();
       text = '';
@@ -556,7 +632,7 @@ var app = {
           // $("#resultado_pesquisa_biblia").css("display","");
         }
       };
-      xmlhttp.open("GET", "js/aa.json", true);
+      xmlhttp.open("GET", "js/"+versaoId+".json", true);
       xmlhttp.send();
     }
   },
@@ -588,27 +664,82 @@ var app = {
     return ano+'-'+mes+'-'+dia+' '+hora+':'+min+':'+seg;
   },
   getIds: function() {
+    window.plugins.OneSignal.getIds(function(ids) {
+      window.localStorage.setItem('playerID', ids.userId);
+      window.localStorage.setItem('pushToken', ids.pushToken);
+    });
+
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         var isAnonymous = user.isAnonymous;
         var uid = user.uid;
-        window.localStorage.setItem('userId',uid);
-        $("#OneSignalUserId").val(uid);
-        app.cadastraUser(uid);
+        window.localStorage.setItem('uid',uid);
       }
-    });   
-  },
-  cadastraUser: function(uid) {
-    console.log(uid)
-    firebase.database().ref('biblia-sagrada-almeida-users').child(uid).set({
-      userId: uid,
-      datacadastro: app.dateTime()
     });
+
+    this.cadastraUser();
+  },
+  cadastraUser: function() {
+    var playerID = window.localStorage.getItem('playerID');
+    var pushToken = window.localStorage.getItem('pushToken');
+    var uid = window.localStorage.getItem('uid');
+    
+    if (playerID && uid) {
+      $.ajax({
+        url: "https://www.innovatesoft.com.br/webservice/app/cadastraUser.php",
+        dataType: 'html',
+        type: 'POST',
+        data: {
+          'userId': playerID,
+          'pushToken': pushToken,
+          'uid': uid,
+          'datacadastro': this.dateTime(),
+          'ultimoacesso': this.dateTime(),
+          'app': 'aa',
+        },
+        error: function(e) {
+        },
+        success: function(a) {
+        },
+      });
+    }
+  },
+  registraAcesso: function(pagina) {
+    if (window.localStorage.getItem('uid')) {
+      $.ajax({
+        url: "https://www.innovatesoft.com.br/webservice/app/registraAcesso.php",
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          'pagina': pagina,
+          'origem': window.localStorage.getItem('uid')
+        },
+      });
+    }
+  },
+  buscaNotificacoes: function(){
+    var uid = window.localStorage.getItem('uid');
+    if (uid) {
+      firebase.database().ref('notificacoes').child(uid).child('aa').on('value', (snapshot) => {
+        //localStorage.removeItem("lista-notificacoes");
+        var notificacoes = snapshot.val();
+        if (notificacoes) {
+          $.each(notificacoes, function (key, item) {
+            var hash = item['hash'];
+            var titulo = item['titulo'];
+            var mensagem = item['mensagem'];
+            var lido = item['lido'];
+            var data_notificacao = item['data_notificacao'];
+            var link = item['link'];
+            var app = item['app'];
+            lista_notificacao.push({id: hash, titulo: titulo, mensagem: mensagem, lido: lido, data_notificacao: data_notificacao, link: link});
+            localStorage.setItem("lista-notificacoes", JSON.stringify(lista_notificacao));
+          });
+          firebase.database().ref('notificacoes').child(uid).child('aa').remove();
+        }
+      });
+    }
   }
 };
 
 app.initialize();
-
-if (!window.localStorage.getItem('userId')) {
-  app.getIds();
-}
