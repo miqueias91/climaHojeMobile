@@ -679,7 +679,7 @@ var app = {
     }
   },
   registraAcesso: function(pagina) {
-    if (window.localStorage.getItem('uid')) {
+    /*if (window.localStorage.getItem('uid')) {
       $.ajax({
         url: "https://www.innovatesoft.com.br/webservice/app/registraAcesso.php",
         dataType: 'json',
@@ -689,7 +689,7 @@ var app = {
           'origem': window.localStorage.getItem('uid')
         },
       });
-    }
+    }*/
   },
   buscaNotificacoes: function(){
     var uid = window.localStorage.getItem('uid');
