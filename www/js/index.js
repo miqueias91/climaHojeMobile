@@ -691,6 +691,113 @@ var app = {
       });
     }*/
   },
+  buscaCantor: function(id) {
+    var selector = this;
+    var texto = "";
+
+    $.ajax({
+      type : "GET",
+      url : "js/cantor.json",
+      dataType : "json",
+      success : function(data){
+        $(selector).each(function(){
+          var myBook = null;
+          var obj = {
+            id : id,
+            text : ""
+          };
+          background = '#f5f5f5';
+          color = '1f1f21';
+          modo_noturno = JSON.parse(localStorage.getItem('modo-noturno'));
+          if (modo_noturno) {
+            background = '#333';
+            color = 'fff';
+          }
+          if (modo_noturno) {
+            background = '#333';
+            color = 'fff';
+          }
+
+          if (data) {
+            for(i in data){
+              if(data[i].id == obj.id){
+                  myBook = data[i];
+              }
+            } 
+            for (var i = 0; i < myBook['hinario'].length; i++) {
+              texto = myBook['hinario'][i];
+
+              obj.text += 
+              '<ons-list-item style="background:'+background+';color:#'+color+'">'+
+                '<p style="font-size: '+fonte_versiculo+'px;text-align:justify;line-height: 30px;background:'+background+';color:#'+color+'">'+
+                  ''+texto+ 
+                '</p>'+
+              '</ons-list-item>';
+            }
+          }
+          $("#conteudoCantor").html(obj.text);
+        });
+      }
+    });
+  },
+  listaCantor: function() {
+    var text = "";
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        $("#listacantor").html('');
+        var data = JSON.parse(this.responseText);
+        data.forEach(function (hinos) {
+          text +=
+          '<ons-list-item class="showAd" onclick="fn.pushPage({\'id\': \'conteudoCantor.html\', \'title\': \''+hinos['id']+'||'+hinos['titulo']+'\'})">'+
+          '  <div class="left"></div>'+
+          '  <div class="center" style="font-size: 15px;">'+hinos['id']+' - '+hinos['titulo']+'</div>'+
+          '  <div class="right"><ons-icon icon="fa-angle-right"></ons-icon></div>'+
+          '</ons-list-item>';
+        });
+        $("#listacantor").html(text);
+      }
+    };
+    xmlhttp.open("GET", "js/cantor.json", true);
+    xmlhttp.send();
+  },
+  pesquisaCantor: function(term){
+    if (term != '') {
+      term = term.toLowerCase();
+      text = '';
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          $("#resultado_pesquisa_cantor").html('');
+          var data = JSON.parse(this.responseText);
+          data.forEach(function (hinos) {
+            var achou = false;
+            hinos['hinario'].forEach(function (hino) {
+              if (!achou) {
+                str = hino.toLowerCase();
+                if(str.match(term)){
+                  achou = true;
+                  text +=
+                  '<ons-list-item class="showAd" onclick="fn.pushPage({\'id\': \'conteudoCantor.html\', \'title\': \''+hinos['id']+'||'+hinos['titulo']+'\'})">'+             
+                  '  <div class="center" style="font-size: 15px;display:block;"><span>'+hinos['id']+' - '+hinos['titulo']+'</span>'+
+                  '   <div><i style="font-size: 11px;">'+str+'</i></div>'+
+                  '  </div>'+
+                  '</ons-list-item>';
+                }
+              }
+            });
+          });
+          if (text === '') {
+            text = '<p style="text-align: center; margin: 0 0 10px 0;">Nenhum resultado encontrado</p>';
+          }
+          $("#resultado_pesquisa_cantor").html(text);
+          $("#resultado_pesquisa_cantor").css("display","");
+        }
+      };
+      xmlhttp.open("GET", "js/cantor.json", true);
+      xmlhttp.send();
+    }
+  },
   buscaNotificacoes: function(){
     var uid = window.localStorage.getItem('uid');
     if (uid) {
