@@ -96,7 +96,7 @@
       </div>
     </ons-toolbar>
     <ons-tabbar swipeable id="appTabbar" position="bottom">
-        <ons-tab label="Versão 1.0.18" page="home.html" active></ons-tab>
+        <ons-tab label="Versão 1.0.19" page="home.html" active></ons-tab>
     </ons-tabbar>
 
     <script>
@@ -208,6 +208,18 @@
           <ons-icon icon="fa-link"></ons-icon>
         </div>
       </ons-list-item>   
+
+      <ons-list-item onclick="fn.pushPage({'id': 'livraria.html', 'title': 'Livraria'})">
+        <div class="left">
+          <i class="fas fa-store"></i>
+        </div>
+        <div class="center">
+          Livraria
+        </div>
+        <div class="right">
+          <ons-icon icon="fa-link"></ons-icon>
+        </div>
+      </ons-list-item>
 
       <ons-list-item onclick="fn.loadLink('https://www.instagram.com/innovatesoft/')">
         <div class="left">
@@ -2464,7 +2476,93 @@
         </style>
     </ons-page>
 </template>
+<template id="livraria.html">
+  <ons-page>
+      <ons-toolbar id="livraria_">
+          <div class="left">
+              <ons-back-button>Livraria</ons-back-button>
+          </div>
+          <div class="center"></div>
+          <div class="right"></div>
+      </ons-toolbar>
 
+        <ons-list>
+            <ons-list-item class="showAd" onclick="fn.loadLink('https://www.amazon.com.br/gp/search?ie=UTF8&tag=miqueias91-20&linkCode=ur2&linkId=b4a22c34a9136fdaf41666ff22cb8e98&camp=1789&creative=9325&index=books&keywords=Bíblias')">
+                <div class="left"></div>
+                <div class="center" style="font-size: 20px;">Bíblias</div>
+                <div class="right"><ons-icon icon="fa-angle-right"></ons-icon></div>
+            </ons-list-item>
+                  <ons-list-item class="showAd" onclick="fn.loadLink('https://www.amazon.com.br/b?_encoding=UTF8&tag=miqueias91-20&linkCode=ur2&linkId=c44abde5141a577b7d673475ea32d5ea&camp=1789&creative=9325&node=7874675011')">
+                <div class="left"></div>
+                <div class="center" style="font-size: 20px;">Livros</div>
+                <div class="right"><ons-icon icon="fa-angle-right"></ons-icon></div>
+            </ons-list-item>
+                  <ons-list-item class="showAd" onclick="fn.loadLink('https://www.amazon.com.br/gp/search?ie=UTF8&tag=miqueias91-20&linkCode=ur2&linkId=84d230189a204705d2f30c6fc64b7ddd&camp=1789&creative=9325&index=books&keywords=catolicismo')">
+                <div class="left"></div>
+                <div class="center" style="font-size: 20px;">Catolicismo</div>
+                <div class="right"><ons-icon icon="fa-angle-right"></ons-icon></div>
+            </ons-list-item>
+                  <ons-list-item class="showAd" onclick="fn.loadLink('https://www.amazon.com.br/gp/search?ie=UTF8&tag=miqueias91-20&linkCode=ur2&linkId=512b015aee30b1121e35104a56b228d9&camp=1789&creative=9325&index=books&keywords=teologia')">
+                <div class="left"></div>
+                <div class="center" style="font-size: 20px;">Teologia</div>
+                <div class="right"><ons-icon icon="fa-angle-right"></ons-icon></div>
+            </ons-list-item>
+                  <ons-list-item class="showAd" onclick="fn.loadLink('https://www.amazon.com.br/gp/search?ie=UTF8&tag=miqueias91-20&linkCode=ur2&linkId=8117835ddda0f85bb6fa19c6b9703b18&camp=1789&creative=9325&index=books&keywords=vida cristã')">
+                <div class="left"></div>
+                <div class="center" style="font-size: 20px;">Vida Cristã</div>
+                <div class="right"><ons-icon icon="fa-angle-right"></ons-icon></div>
+            </ons-list-item>
+                  <ons-list-item class="showAd" onclick="fn.loadLink('https://www.amazon.com.br/gp/search?ie=UTF8&tag=miqueias91-20&linkCode=ur2&linkId=fb65ae0ccd0f38f3d5674752e76c826c&camp=1789&creative=9325&index=books&keywords=judaísmo')">
+                <div class="left"></div>
+                <div class="center" style="font-size: 20px;">Judaísmo</div>
+                <div class="right"><ons-icon icon="fa-angle-right"></ons-icon></div>
+            </ons-list-item>
+                  <ons-list-item class="showAd" onclick="fn.loadLink('https://www.amazon.com.br/gp/search?ie=UTF8&tag=miqueias91-20&linkCode=ur2&linkId=eb844acd3e92995861f8645e93ecd393&camp=1789&creative=9325&index=books&keywords=Estudos da Religião')">
+                <div class="left"></div>
+                <div class="center" style="font-size: 20px;">Estudos da Religião</div>
+                <div class="right"><ons-icon icon="fa-angle-right"></ons-icon></div>
+            </ons-list-item>
+
+
+
+
+        </ons-list>
+    <script>
+      ons.getScriptPage().onInit = function () {
+        // admob.interstitial.show();
+        app.registraAcesso('ntlh/livraria.html');
+        this.querySelector('div.center').textContent = 'Livraria';
+      }
+    </script>
+    <style>
+      .texto_notificacoes {
+        max-width: 35ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+        .button-margin {
+            margin: 6px 0;
+        }
+
+      .intro {
+        text-align: left;
+        padding: 0 20px;
+        margin-top: 40px;
+      }
+
+      ons-card {
+        cursor: pointer;
+        color: #333;
+      }
+
+      .card__title,
+      .card--material__title {
+        font-size: 20px;
+      }
+    </style>
+  </ons-page>
+</template>
 <script src="js/index.js"></script>
 
 </body>
